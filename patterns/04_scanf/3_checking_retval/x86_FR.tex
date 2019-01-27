@@ -10,12 +10,12 @@ La fonction \glslink{caller}{appelante} (\main) à besoin du résultat de la fon
 dans la registre \EAX.
 
 \myindex{x86!\Instructions!CMP}
-Nous le vérifions avec l'aide de l'instruction \TT{CMP EAX, 1} (\IT{CoMPare}).
+Nous le vérifions avec l'aide de l'instruction \TT{CMP EAX, 1} (\emph{CoMPare}).
 En d'autres mots, nous comparons la valeur dans le registre \EAX avec 1.
 
 \myindex{x86!\Instructions!JNE}
-Une instruction de saut conditonnelle \JNE suit l'instruction \CMP. \JNE signifie
-\IT{Jump if Not Equal} (saut si non égal).
+Une instruction de saut conditionnelle \JNE suit l'instruction \CMP. \JNE signifie
+\emph{Jump if Not Equal} (saut si non égal).
 
 Donc, si la valeur dans le registre \EAX n'est pas égale à 1, le \ac{CPU} va poursuivre
 l'exécution à l'adresse mentionnée dans l'opérande \JNE, dans notre cas \TT{\$LN2@main}.
@@ -32,9 +32,9 @@ Il passe le contrôle au point après le second \printf et juste avant l'instruc
 
 % FIXME internal \ref{} to x86 flags instead of wikipedia
 \myindex{x86!\Registers!\Flags}
-Donc, on peut dire que comparer une valeur avec une autre est \IT{usuellement} implémenté
-par la paire d'instructions \CMP/\Jcc, oú \IT{cc} est un \IT{code de condition}.
-\CMP compare deux valeurs et met les flags\footnote{flags x86, voir aussi: \href{http://go.yurichev.com/17120}{wikipedia}.}
+Donc, on peut dire que comparer une valeur avec une autre est \emph{usuellement} implémenté
+par la paire d'instructions \CMP/\Jcc, où \emph{cc} est un \emph{code de condition}.
+\CMP compare deux valeurs et met les flags\footnote{flags x86, voir aussi: \href{http://go.yurichev.com/17120}{Wikipédia}.}
 du processeur.
 \Jcc vérifie ces flags et décide de passer le contrôle à l'adresse spécifiée ou non.
 
@@ -48,23 +48,23 @@ Toutes les instructions arithmétiques mettent les flags du processeur, pas seul
 Si nous comparons 1 et 1, $1-1$ donne 0 donc le flag \ZF va être mis (signifiant
 que le dernier résultat est 0).
 Dans aucune autre circonstance \ZF ne sera mis, à l'exception que les opérandes
-ne soient égales.
+ne soient égaux.
 \JNE vérifie seulement le flag \ZF et saute seulement si il n'est pas mis. \JNE
-est un synonyme pour \JNZ (\IT{Jump if Not Zero} (saut si non zéro)).
+est un synonyme pour \JNZ (\emph{Jump if Not Zero} (saut si non zéro)).
 L'assembleur génère le même opcode pour les instructions \JNE et \JNZ.
 Donc, l'instruction \CMP peut être remplacée par une instruction \SUB et presque
-tout ira bien, à la différence que \SUB altère la valeur de la première opérande.
-\CMP est un \IT{SUB sans sauver le résultat, mais modifiant les flags}.
+tout ira bien, à la différence que \SUB altère la valeur du premier opérande.
+\CMP est un \emph{SUB sans sauver le résultat, mais modifiant les flags}.
 
 \subsubsection{MSVC: x86: IDA}
 
 \myindex{IDA}
 C'est le moment de lancer \IDA et d'essayer de faire quelque chose avec.
-Á propos, pour les débutants, c'est une bonne idée d'utiliser l'option \TT{/MD}
+À propos, pour les débutants, c'est une bonne idée d'utiliser l'option \TT{/MD}
 de MSVC, qui signifie que toutes les fonctions standards ne vont pas être liées
 avec le fichier exécutable, mais vont à la place être importées depuis le fichier
 \TT{MSVCR*.DLL}.
-Ainsi il est plus facile de voir quelles fonctions standards sont utilisées et oú.
+Ainsi il est plus facile de voir quelles fonctions standards sont utilisées et où.
 
 En analysant du code dans \IDA, il est très utile de laisser des notes pour soi-même
 (et les autres).
@@ -81,8 +81,8 @@ Maintenant, il est légèrement plus facile de comprendre le code.
 Toutefois, ce n'est pas une bonne idée de commenter chaque instruction.
 
 % FIXME draw button?
-Vous pouvez aussi cacher(replier) des parties d'une fonction dans \IDA.
-Pour faire cela, marquez le bloc, puis appueaz sur \q{--} sur le pavé numérique et
+Vous pouvez aussi cacher (replier) des parties d'une fonction dans \IDA.
+Pour faire cela, marquez le bloc, puis appuyez sur \q{--} sur le pavé numérique et
 entrez le texte qui doit être affiché à la place.
 
 Cachons deux blocs et donnons leurs un nom:
@@ -109,18 +109,17 @@ La flèche verte pointe vers le bloc qui sera exécuté si le saut est déclench
 et la rouge sinon.
 
 \clearpage
-Il est possible de replier des noeuds dans ce mode et de leurs donner aussi un nom (\q{group nodes}).
+Il est possible de replier des nœuds dans ce mode et de leurs donner aussi un nom (\q{group nodes}).
 Essayons avec 3 blocs:
 
 \begin{figure}[H]
 \centering
 \myincludegraphics{patterns/04_scanf/3_checking_retval/IDA2.png}
-\caption{IDA en mode graphe avec 3 noeuds repliés}
+\caption{IDA en mode graphe avec 3 nœuds repliés}
 \label{fig:ex3_IDA_2}
 \end{figure}
 
 C'est très pratique.
-%%It could be said that a very important part of the reverse engineers' job (and any other researcher as well) is to reduce the amount of information they deal with.
 On peut dire qu'une part importante du travail des rétro-ingénieurs (et de tout
 autre chercheur également) est de réduire la quantité d'information avec laquelle
 travailler.
@@ -155,7 +154,7 @@ Hiew trouve les chaîne \ac{ASCIIZ} et les affiche, comme il le fait avec le nom
 des fonctions importées.
 
 \clearpage
-Déplacez le curseur à l'adresse \TT{.00401027} (oú se trouve l'instruction \TT{JNZ},
+Déplacez le curseur à l'adresse \TT{.00401027} (où se trouve l'instruction \TT{JNZ},
 que l'on doit sauter), appuyez sur F3, et ensuite tapez \q{9090} (qui signifie deux
 \ac{NOP}s):
 
@@ -169,7 +168,7 @@ que l'on doit sauter), appuyez sur F3, et ensuite tapez \q{9090} (qui signifie d
 Appuyez sur F9 (update). Maintenant, l'exécutable est sauvé sur le disque. Il va
 se comporter comme nous le voulions.
 
-Deux \ac{NOP}s ne constitue probablement pas l'approche la plus \ae{}sthétique.
+Deux \ac{NOP}s ne constitue probablement pas l'approche la plus esthétique.
 Une autre façon de modifier cette instruction est d'écrire simplement 0 dans le
 second octet de l'opcode ((\gls{jump offset}), donc ce \TT{JNZ} va toujours sauter
 à l'instruction suivante.

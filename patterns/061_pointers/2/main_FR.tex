@@ -9,7 +9,7 @@ Par exemple, lorsqu'une fonction doit renvoyer deux valeurs.
 
 \lstinputlisting[style=customc]{patterns/061_pointers/2/global.c}
 
-Ceci ce compile en:
+Ceci se compile en:
 
 \lstinputlisting[caption=MSVC 2010 \Optimizing (/Ob0),style=customasmx86]{patterns/061_pointers/2/global.asm}
 
@@ -32,8 +32,7 @@ pour les deux variables.
 
 \clearpage
 Ces variables sont mises à zéro, car les données non-initialisées (de
-\ac{BSS}) sont éffacées avant\\
-le début de l'exécution, [voir \CNineNineStd{} 6.7.8p10].
+\ac{BSS}) sont effacées avant le début de l'exécution, [voir \CNineNineStd{} 6.7.8p10].
 
 Elles se trouvent dans le segment de données, nous pouvons le vérifier en appuyant
 sur Alt-M et en regardant la carte de la mémoire:
@@ -55,11 +54,11 @@ Traçons l'exécution (F7) jusqu'au début de \ttfone:
 \label{fig:pointers_olly_global_2}
 \end{figure}
 
-Deux valeurs sont visibles sur la pile 456 (\TT{0x1C8}) et 123 (\TT{0x7B}), et aussi
+Deux valeurs sont visibles sur la pile: 456 (\TT{0x1C8}) et 123 (\TT{0x7B}), et aussi
 les adresses des deux variables globales.
 
 \clearpage
-Traçons l'exécution jusqu'à la fin de \ttfone.
+Suivons l'exécution jusqu'à la fin de \ttfone.
 Dans la fenêtre en bas à gauche, nous voyons comment le résultat du calcul apparaît
 dans les variables globales:
 
@@ -72,8 +71,8 @@ dans les variables globales:
 
 \clearpage
 
-Maintenant les valeurs des variables globales sont chargées dans des registres prêtes
-à etre passées à \printf (via la pile):
+Maintenant les valeurs des variables globales sont chargées dans des registres, prêtes
+à être passées à \printf (via la pile):
 
 \begin{figure}[H]
 \centering
@@ -99,7 +98,7 @@ Seul celui de \main va changer:
 \clearpage
 Regardons à nouveau avec \olly.
 Les adresses des variables locales dans la pile sont \PtrsAddresses.
-Regardons comment elles sont poussées sur la pile:
+Voyons comment elles sont poussées sur la pile:
 
 \begin{figure}[H]
 \centering
@@ -134,10 +133,10 @@ Ces valeurs sont les résultats de \ttfone.
 
 \subsubsection{\Conclusion{}}
  
-\ttfone peut renvoyer des pointeurs sur n'importe qu'elle endroit en mémoire, situés
-n'importe oú.
+\ttfone peut renvoyer des pointeurs sur n'importe quel emplacement en mémoire, situés
+n'importe où.
 
 C'est par essence l'utilité des pointeurs.
 
-A propos, les \IT{references} \Cpp fonctionnent exactement pareil. Voir à ce propos:
+À propos, les \emph{references} \Cpp fonctionnent exactement pareil. Voir à ce propos:
 (\myref{cpp_references}).

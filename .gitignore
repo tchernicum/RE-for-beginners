@@ -46,3 +46,4 @@ Reverse_Engineering_for_Beginners-*.log
 *.rtf
 upload.sh
 push_all.sh
+/.vs

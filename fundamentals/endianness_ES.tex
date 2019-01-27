@@ -1,4 +1,4 @@
-\section{Endianness}
+\mysection{Endianness}
 \label{sec:endianness}
 
 Endianness es una forma de representar valores en la memoria.
@@ -50,7 +50,7 @@ Entre los CPU little-endian tenemos el Intel x86.
 \subsection{\Example}
 
 Tomemos el MIPS big-endian para Linux instalado y listo en QEMU
-\footnote{Disponible para descargar aqu\'i: \url{http://go.yurichev.com/17008}%}.
+\footnote{Disponible para descargar aqu\'i: \url{http://go.yurichev.com/17008}}.
 
 Y compilemos este ejemplo sencillo:
 
@@ -59,7 +59,7 @@ Y compilemos este ejemplo sencillo:
 
 int main()
 {
-	int v, i;
+	int v;
 
 	v=123;
 
@@ -89,7 +89,7 @@ Es imposible que un binario compilado para un endianness trabaje en un SO con di
 
 En este libro hay otro ejemplo de big-endianness en MIPS: \myref{MIPS_structure_big_endian}.
 
-\subsection{Bi-endian\RU{ (переключаемый порядок)}}
+\subsection{Bi-endian}
 
 CPUs que puede cambiar entre endianness son ARM, PowerPC, SPARC, MIPS, \ac{IA64}, etc.
 

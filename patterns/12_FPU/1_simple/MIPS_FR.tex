@@ -1,13 +1,14 @@
 \subsubsection{MIPS}
 
-MIPS peut supporter plusieurs coprocesseur (jusqu'à 4), le zérotième\footnote{Barbarisme pour rappeler que les indices commencent à zéro.} est un coprocesseur
-contrôleur spécial, et celui d'indice 1 est le FPU.
+MIPS peut supporter plusieurs coprocesseurs (jusqu'à 4), le zérotième\footnote{Barbarisme
+pour rappeler que les indices commencent à zéro.} est un coprocesseur contrôleur
+spécial, et celui d'indice 1 est le FPU.
 
 Comme en ARM, le coprocesseur MIPS n'est pas une machine à pile, il comprend 32 registres
 32-bit (\$F0-\$F31):
 \myref{MIPS_FPU_registers}.
 
-Lorsque l'on doit travailler avec des valeurs \Tdouble 64-bit, une paire de registre-F
+Lorsque l'on doit travailler avec des valeurs \Tdouble 64-bit, une paire de F-registres
 32-bit est utilisée.
 
 \lstinputlisting[caption=GCC 4.4.5 \Optimizing (IDA),style=customasmMIPS]{patterns/12_FPU/1_simple/MIPS_O3_IDA_FR.lst}
@@ -41,5 +42,5 @@ marqué avec un point d'interrogation.
 Il m'est difficile de comprendre pourquoi charger une partie de la constante de type
 64-bit \Tdouble dans le registre \$V0. Cette instruction n'a pas d'effet.
 % TODO did you try checking out compiler source code?
-Si quelqu'un en sait plus sur ceci, s'il vous plait, envoyez un email à l'auteur\footnote{\EMAIL}.
+Si quelqu'un en sait plus sur ceci, s'il vous plaît, envoyez moi un email\footnote{\EMAIL}.
 

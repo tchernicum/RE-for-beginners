@@ -10,17 +10,23 @@ Intéressons-nous à la fonction \TT{alloca()}
 
 Cette fonction fonctionne comme \TT{malloc()}, mais alloue de la mémoire directement sur la pile.
 % page break added to prevent "\vref on page boundary" error. it may be dropped in future.
-Le bout de mémoire ne doit pas être libéré via un appel à la fonction \TT{free()}, \\
-puisque l'épilogue de fonction (\myref{sec:prologepilog}) retourne \ESP à son état initial précédant ce qui va automatiquement désallouer ce bout de mémoire.
+L'espace de mémoire ne doit pas être libéré via un appel à la fonction \TT{free()},
+puisque l'épilogue de fonction (\myref{sec:prologepilog}) remet \ESP à son état initial
+ce qui va automatiquement libérer cet espace mémoire.
 
 Intéressons-nous à l'implémentation d'\TT{alloca()}.
-Cette fonction décale simplement \ESP du nombre d'octets demandé vers le bas et vers le fond de la pile et définit \ESP en tant que pointeur vers la mémoire \IT{allouée}.
+Cette fonction décale simplement \ESP du nombre d'octets demandé vers le bas de la
+pile et définit \ESP comme un pointeur vers la mémoire \emph{allouée}.
 
 Essayons :
 
 \lstinputlisting[style=customc]{patterns/02_stack/04_alloca/2_1.c}
 
-La fonction \TT{\_snprintf()} fonctionne comme \printf, mais au lieu d'afficher le résultat sur \gls{stdout} (ex., dans un terminal ou une console), il l'écrit dans le buffer \TT{buf}. La fonction \puts copie le contenu de \TT{buf} dans \gls{stdout}. Évidemment, ces deux appels de fonctions peuvent être remplacés par un seul appel à la fonction \printf, mais nous devons illustrer l'utilisation de petit buffer.
+La fonction \TT{\_snprintf()} fonctionne comme \printf, mais au lieu d'afficher le
+résultat sur la \glslink{stdout}{sortie standard} (ex., dans un terminal ou une console), il l'écrit dans
+le buffer \TT{buf}. La fonction \puts copie le contenu de \TT{buf} dans la \glslink{stdout}{sortie standard}.
+Évidemment, ces deux appels de fonctions peuvent être remplacés par un seul appel à
+la fonction \printf, mais nous devons illustrer l'utilisation de petit buffer.
 
 \myparagraph{MSVC}
 
@@ -29,8 +35,8 @@ Compilons (MSVC 2010) :
 \lstinputlisting[caption=MSVC 2010,style=customasmx86]{patterns/02_stack/04_alloca/2_2_msvc.asm}
 
 \myindex{Compiler intrinsic}
-Le seul argument d'\TT{alloca()} est passé via \EAX (au lieu de le mettre sur la pile )
-\footnote{C'est parce que alloca() est plutôt une fonctionnalité intrinsèque du compilateur (\myref{sec:compiler_intrinsic}) qu'une fonction normale. Une des raisons pour lequelle nous avons besoin d'une fonction séparée au lieu de quelques instructions dans le code, est parce que l'implementation d'alloca() par \ac{MSVC} à également du code qui lit depuis la mémoire récemment allouée pour laisser l'\ac{OS} mapper la memoire physique vers la \ac{mémoire virtuelle}. Aprés l'appel à la fonction \TT{alloca()}, \ESP pointe sur un bloc de 600 octets que nous pouvons utiliser pour le tableau \TT{buf}.}
+Le seul argument d'\TT{alloca()} est passé via \EAX (au lieu de le mettre sur la pile)
+\footnote{C'est parce que alloca() est plutôt une fonctionnalité intrinsèque du compilateur (\myref{sec:compiler_intrinsic}) qu'une fonction normale. Une des raisons pour laquelle nous avons besoin d'une fonction séparée au lieu de quelques instructions dans le code, est parce que l'implémentation d'alloca() par \ac{MSVC} a également du code qui lit depuis la mémoire récemment allouée pour laisser l'\ac{OS} mapper la mémoire physique vers la \ac{VM}. Aprés l'appel à la fonction \TT{alloca()}, \ESP pointe sur un bloc de 600 octets que nous pouvons utiliser pour le tableau \TT{buf}.}.
 
 \myparagraph{GCC + \IntelSyntax}
 

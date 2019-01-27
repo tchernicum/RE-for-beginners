@@ -22,7 +22,7 @@ $LL2@my_atoi:
 ; EAX=RAX+RDX*2=input character + rt*5*2=input character + rt*10
 ; correct digit by subtracting 48 (0x30 or '0')
 	add	eax, -48				; ffffffffffffffd0H
-; was last character zero?
+; was the last character zero?
 	test	r8b, r8b
 ; jump to loop begin, if not
 	jne	SHORT $LL2@my_atoi

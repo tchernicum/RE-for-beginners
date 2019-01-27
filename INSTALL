@@ -21,3 +21,8 @@
 
 Install TeXlive and use Cygwin.
 
+* To build Japanese version ...
+
+... put gloss-japanese.ldf to the current directory.
+Download from https://github.com/reutenauer/polyglossia/pull/162/files
+

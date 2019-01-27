@@ -1,0 +1,57 @@
+\mysection{Integer overflow}
+
+I intentionally put this section after the section about signed number representation.
+
+First, take a look at this implementation of \emph{itoa()} function from \InSqBrackets{\KRBook}:
+
+\begin{lstlisting}[style=customc]
+void itoa(int n, char s[])
+{
+        int i, sign;
+        if ((sign = n) < 0) /* record sign */
+                n = -n; /* make n positive */
+        i = 0;
+        do { /* generate digits in reverse order */
+                s[i++] = n % 10 + '0'; /* get next digit */
+        } while ((n /= 10) > 0); /* delete it */
+        if (sign < 0)
+                s[i++] = '-';
+        s[i] = '\0';
+        strrev(s);
+}
+\end{lstlisting}
+
+( The full source code: \url{https://github.com/DennisYurichev/RE-for-beginners/blob/master/fundamentals/itoa_KR.c} )
+
+It has a subtle bug. Try to find it. You can download source code, compile it, etc.
+The answer on the next page.
+
+\clearpage
+
+From \InSqBrackets{\KRBook}:
+
+\begin{framed}
+\begin{quotation}
+Exercise 3-4. In a two's complement number representation, our version of \emph{itoa}
+does not handle the largest negative number, that is, the value
+of \emph{n} equal to $-(2^{wordsize-1})$. Explain why not. Modify it to
+print that value correctly, regardless of the machine on which
+it runs.
+\end{quotation}
+\end{framed}
+
+The answer is: the function cannot process largest negative number (INT\_MIN or 0x80000000 or -2147483648) correctly.
+
+How to change sign? Invert all bits and add 1.
+If to invert all bits in INT\_MIN value (0x80000000), this is 0x7fffffff. Add 1 and this is 0x80000000 again.
+So changing sign has no effect.
+This is an important artifact of two's complement system.
+
+Further reading:
+
+\begin{itemize}
+\item blexim -- Basic Integer Overflows\footnote{\url{http://phrack.org/issues/60/10.html}}
+
+\item Yannick Moy, Nikolaj Bjørner, and David Sielaff -- Modular Bug-finding for Integer Overflows in the Large: Sound, Efficient, Bit-precise Static Analysis\footnote{\url{https://yurichev.com/mirrors/SMT/z3prefix.pdf}}
+\end{itemize}
+

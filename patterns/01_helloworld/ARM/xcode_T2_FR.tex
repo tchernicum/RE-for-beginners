@@ -27,18 +27,18 @@ __cstring:00003E70 48 65 6C 6C 6F 20+aHelloWorld  DCB "Hello world!",0xA,0
 \myindex{ARM!\Instructions!BL}
 \myindex{ARM!\Instructions!BLX}
 
-Les instructions \TT{BL} et \TT{BLX} en mode Thumb, comme on s'en souviens, sont
+Les instructions \TT{BL} et \TT{BLX} en mode Thumb, comme on s'en souvient, sont
 encodées comme une paire d'instructions 16 bits.
-En Thumb-2 ces opcodes \IT{substituts} sont étendus de telle sorte que les nouvelles
+En Thumb-2 ces opcodes \emph{substituts} sont étendus de telle sorte que les nouvelles
 instructions puissent être encodées comme des instructions 32-bit.
 
 C'est évident en considérant que les opcodes des instructions Thumb-2 commencent
 toujours avec \TT{0xFx} ou \TT{0xEx}.
 
 Mais dans le listing d'\IDA les octets d'opcodes sont échangés car pour le processeur
-ARM les intructions sont encodées comme ceci:
+ARM les instructions sont encodées comme ceci:
 dernier octet en premier et ensuite le premier (pour les modes Thumb et Thumb-2)
-ou pour les intructions en mode ARM le quatrième octet vient en premier, ensuite
+ou pour les instructions en mode ARM le quatrième octet vient en premier, ensuite
 le troisième, puis le second et enfin le premier (à cause des différents \gls{endianness}).
 
 C'est ainsi que les octets se trouvent dans le listing d'IDA:
@@ -56,7 +56,7 @@ Donc, comme on peut le voir, les instructions \TT{MOVW}, \TT{MOVT.W} et \TT{BLX}
 commencent par \TT{0xFx}.
 
 Une des instructions Thumb-2 est \TT{MOVW R0, \#0x13D8} ~---elle stocke une valeur
-16-bit dans la partie inférieure du registre \Reg{0}, éffaçant les bits supérieurs.
+16-bit dans la partie inférieure du registre \Reg{0}, effaçant les bits supérieurs.
 
 Aussi, \TT{MOVT.W R0, \#0} ~fonctionne comme \TT{MOVT} de l'exemple précédent
 mais il fonctionne en Thumb-2.
@@ -75,7 +75,7 @@ Cette instruction est placée ici, car l'instruction à laquelle est passée le 
 ressemble à (c'est encodé en mode ARM):
 
 \begin{lstlisting}[style=customasmARM]
-__symbolstub1:00003FEC _puts           ; CODE XREF: _hello_world+E
+__symbolstub1:00003FEC _puts           ; CODE XREF: \_hello\_world+E
 __symbolstub1:00003FEC 44 F0 9F E5     LDR  PC, =__imp__puts
 \end{lstlisting}
 
@@ -85,11 +85,11 @@ dans la section import.
 Mais alors, le lecteur attentif pourrait demander: pourquoi ne pas appeler \puts
 depuis l'endroit dans le code où on en a besoin ?
 
-Parce que ce n'est pas très éfficace en terme d'espace.
+Parce que ce n'est pas très efficace en terme d'espace.
 
 \myindex{Dynamically loaded libraries}
 Presque tous les programmes utilisent des bibliothèques dynamiques externes
-(comme les DELL sous Windows, les .so sous *NIX ou les .dylib sous \MacOSX).
+(comme les DLL sous Windows, les .so sous *NIX ou les .dylib sous \MacOSX).
 Les bibliothèques dynamiques contiennent les bibliothèques fréquemment utilisées,
 incluant la fonction C standard \puts.
 
@@ -103,7 +103,7 @@ Le chargeur de l'\ac{OS} charge tous les modules dont il a besoin, tout en énum
 les symboles d'import dans le module primaire, il détermine l'adresse correcte de
 chaque symbole.
 
-Dans notre cas, \IT{\_\_imp\_\_puts} est une variable 32-bit utilisée par le
+Dans notre cas, \emph{\_\_imp\_\_puts} est une variable 32-bit utilisée par le
 chargeur de l'\ac{OS} pour sauver l'adresse correcte d'une fonction dans une
 bibliothèque externe.
 Ensuite l'instruction \TT{LDR} lit la valeur 32-bit depuis cette variable et
@@ -115,17 +115,17 @@ seule fois, à une place dédiée.
 
 \myindex{thunk-functions}
 
-A côté de ça, comme nous l'avons déjà compris, il est impossible de charger
+À côté de ça, comme nous l'avons déjà compris, il est impossible de charger
 une valeur 32-bit dans un registre en utilisant seulement une instruction
 sans un accès mémoire.
 
 Donc, la solution optimale est d'allouer une fonction séparée fonctionnant en
-mode ARM avec le seul but de passer le contrôle à l bibliothèque dynamique et
+mode ARM avec le seul but de passer le contrôle à la bibliothèque dynamique et
 ensuite de sauter à cette petite fonction d'une instruction (ainsi appelée
 \glslink{thunk function}{fonction thunk}) depuis le code Thumb.
 
 \myindex{ARM!\Instructions!BL}
-A propos, dans l'exemple précédent (compilé en mode ARM), le contrôle est
+À propos, dans l'exemple précédent (compilé en mode ARM), le contrôle est
 passé par \TT{BL} à la même \glslink{thunk function}{fonction thunk}.
 Le mode du processeur, toutefois, n'est pas échangé (d'où l'absence d'un \q{X}
 dans le mnémonique de l'instruction).
@@ -133,13 +133,13 @@ dans le mnémonique de l'instruction).
 \myparagraph{Plus à propos des fonctions thunk}
 \myindex{thunk-functions}
 
-Les fonctions thunk sont difficile à comprendre, apparement, à cause d'un
+Les fonctions thunk sont difficile à comprendre, apparemment, à cause d'un
 mauvais nom.
 La manière la plus simple est de les voir comme des adaptateurs ou des
 convertisseurs d'un type jack à un autre.
 Par exemple, un adaptateur permettant l'insertion d'un cordon électrique
 britannique sur une prise murale américaine, ou vice-versa.
-Les fonctions thunk sont parfois appelées \IT{wrappers}.
+Les fonctions thunk sont parfois appelées \emph{wrappers}.
 
 Voici quelques autres descriptions de ces fonctions:
 

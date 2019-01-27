@@ -12,12 +12,12 @@ pour le compilateur de générer un trop gros code avec de nombreuses instructio
 
 \subsubsection{\Conclusion{}}
 
-Squelette grossier d'un \IT{switch()}:
+Squelette grossier d'un \emph{switch()}:
 
 % TODO: ARM, MIPS skeleton
 \lstinputlisting[caption=x86,style=customasmx86]{patterns/08_switch/2_lot/skel1_FR.lst}
 
-Le saut a une adresse de la table de saut peut aussi être implémenté en utilisant
+Le saut à une adresse de la table de saut peut aussi être implémenté en utilisant
 cette instruction: \\
 \TT{JMP jump\_table[REG*4]}.
 Ou \TT{JMP jump\_table[REG*8]} en x64.

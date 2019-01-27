@@ -1,11 +1,34 @@
-% TODO to be synced with EN version
 \section*{Vorwort}
+
+\subsection*{Warum zwei Titel?}
+\label{TwoTitles}
+
+Dieses Buch hieß von 2014-2018 ``Reverse Engineering for Beginners'', jedoch hatte ich immer die Befürchtung, dass es den Leserkreis zu sehr einengen würde.
+
+Infosec Leute kennen sich mit ``Reverse Engineering'' aus, jedoch hörte ich selten das Wort ``Assembler'' von Ihnen.
+
+Desweiteren ist der Begriff ``Reverse Engineering'' etwas zu kryptisch für den Großteil von Programmierern, diesen ist jedoch ``Assembler'' geläufig.
+
+Im Juli 2018 änderte ich als Experiment den Titel zu ``Assembly Language for Beginners'' und veröffentlichte den Link auf der Hacker News-Website\footnote{\url{https://news.ycombinator.com/item?id=17549050}}. Das Buch kam allgemein gut an.
+
+Aus diesem Grund hat das Buch nun zwei Titel.
+
+Ich habe den zweiten Titel zu ``Understanding Assembly Language'' geändert, da es bereits eine Erscheinung mit dem Titel ``Assembly Language for Beginners'' gab. Einige Leute sind der Meinung, dass ``for Beginners'' etwas sarkastisch klingt, für ein Buch mit \textasciitilde{}1000 Seiten.
+
+Die beiden Bücher unterscheiden sich lediglich im Titel, dem Dateinamen (UAL-XX.pdf beziehungsweise RE4B-XX.pdf), URL und ein paar der einleitenden Seiten.
+
+\subsection*{Über Reverse Engineering}
 
 Es gibt verschiedene verbreitete Interpretationen des Begriffs Reverse Engineering:\\
 1) Reverse Engineering von Software: Rückgewinnung des Quellcodes bereits kompilierter Programme;\\
-2) Das Erfassen von 3D Strukturen und die digitale Manipulationen die zur Duplizierung notwendig sind;\\
+2) Das Erfassen von 3D Strukturen und die digitalen Manipulationen die zur Duplizierung notwendig sind;\\
 3) Nachbilden von \ac{DBMS}-Strukturen.\\
 Dieses Buch behandelt die erste Interpretation.
+
+\subsection*{Voraussetzungen}
+
+Grundlegende Kenntnisse der Programmiersprache C.
+Empfohlene Literatur: \myref{CCppBooks}.
 
 \subsection*{Übungen und Aufgaben}
 \dots 
@@ -30,12 +53,53 @@ Er kann per E-Mail kontaktiert werden: \textbf{\EMAIL{}}.
 \input{thanks}
 \input{FAQ_DE}
 
+\subsection*{Programmieren lernen}
+
+Viele Leute stellen hierzu Fragen.
+
+Es gibt keinen ``goldenen Weg'', aber einige effiziente Möglichkeiten.
+
+Aus meiner eigenen Erfahrung ist dies: lösen von Übungen aus:
+
+\begin{itemize}
+	\item \KRBook
+	\item Harold Abelson, Gerald Jay Sussman, Julie Sussman -- Structure and Interpretation of Computer Programs
+	\item \TAOCP
+	\item Niklaus Wirth's books
+	\item \RobPikePractice
+\end{itemize}
+
+... in C und LISP.
+Möglicherweise benutzt du diese Programmiersprachen in der Zukunft nicht mehr, zumindest die meisten professionellen Programmierer tun es nicht. Aber Programmiererfahrung in C und LISP wird langfristig eine wichtige Bedeutung haben.
+
+Das Lesen der Bücher kann übersprungen und die Bücher nur zu Rate gezogen werden wenn das Gefühl aufkommt, dass einige Grundkenntnisse zum Lösen der Aufgaben fehlen.
+
+Dies mag Jahre dauern, vielleicht auch ein Leben lang. Trotzdem ist es noch schneller als Modeerscheinungen hinterherzulaufen.
+
+Der Erfolg dieser Bücher ist vielleicht in der Tatsache begründet, dass die Autoren Lehrer sind und das komplette Material zunächst von Studenten genutzt wurde.
+
+Bezüglich LISP, empfehle ich persönlich Racket (einen Scheme-Dialekt). Dies ist aber stark abhängig vom Geschmack jedes Einzelnen.
+
+Manche sagen, dass das Verständnis von Assembler auch hilfreich ist, wenn man es niemals nutzen wird.
+Das ist wahr.
+Aber dies ist der Weg für die meisten ``geeks'' und kann erst mal aufgeschoben werden.
+
+Selbstlerner (inklusive dem Autoren dieses Buchs) stehen oft vor dem Problem, sich erst mit schwierigen Aufgaben zu beschäftigen, die einfachen jedoch zu überspringen.
+Das ist ein großer Fehler.
+Als Vergleich mit Sport oder Musik -- niemand startet mit 100Kg-Gewichten oder Paganini's Caprices.
+Ich würde sagen -- man kann die Lösung eines Problems angehen, wenn man diese schon grob im Kopf skizzieren kann.
+
+\input{knuth_baby_steps}
+( Donald E. Knuth -- \url{https://theorydish.blog/2018/02/01/donald-knuth-on-doing-research/} )
+
+Viel Glück!
+
 \subsection*{Über die koreanische Übersetzung}
 
 Im Januar 2015 hat die Acorn Publishing Company (\href{http://www.acornpub.co.kr}{www.acornpub.co.kr}) in Süd-Korea
 viel Aufwand in die Übersetzung und Veröffentlichung meines Buchs ins Koreanische (mit Stand August 2014) investiert.
 
-Es ist jetzt unter dieser \href{http://go.yurichev.com/17343}{Website} verfügbar.
+Es ist jetzt unter dieser \href{http://go.yurichev.com/17343}{Webseite} verfügbar.
 
 \iffalse
 \begin{figure}[H]
@@ -49,9 +113,33 @@ Die Cover-Gestaltung wurde von meinem künstlerisch begabten Freund Andy Nechaev
 \href{http://go.yurichev.com/17023}{facebook/andydinka}.
 Die Acorn Publishing Company besetzt die Urheberrechte an der koreanischen Übersetzung.
 
-Wenn Sie also ein \IT{echtes} Buch in Ihrem Buchregal auf koreanisch haben und 
+Wenn Sie also ein \emph{echtes} Buch in Ihrem Buchregal auf koreanisch haben und 
 mich bei meiner Arbeit unterstützen wollen, können Sie das Buch nun kaufen.
 
-%\subsection*{About the Persian/Farsi translation}
-%TBT
+\subsection*{Über die persische Übersetzung (Farsi)}
 
+In 2016 wurde das Buch von Mohsen Mostafa Jokar übersetzt, der in der iranischen Community
+auch für die Übersetzung des Radare
+Handbuchs\footnote{\url{http://rada.re/get/radare2book-persian.pdf}} bekannt ist).
+Es ist auf der Homepage des Verlegers\footnote{\url{http://goo.gl/2Tzx0H}} (Pendare Pars)
+verfügbar.
+
+Hier ist ein Link zu einem 40-seitigen Auszug: \url{https://beginners.re/farsi.pdf}.
+
+National Library of Iran registration information: \url{http://opac.nlai.ir/opac-prod/bibliographic/4473995}.
+
+\subsection*{Über die chinesische Übersetzung}
+
+Im April 2017 wurde die chinesische Übersetzung von Chinese PTPress fertiggestellt, bei denen
+auch das Copyright liegt.
+
+Die chinesische Version kann hier bestellt werden: \url{http://www.epubit.com.cn/book/details/4174}.
+Ein Auszug und die Geschichte der Übersetzung kann hier gefunden werden: \url{http://www.cptoday.cn/news/detail/3155}.
+
+Der Hauptübersetzer ist Archer, dem der Autor sehr iel verdankt.
+Archer war extrem akribisch (im positiven Sinne) und meldete
+den Großteil der bekannten Fehler, was für Literatur wie dieses Buch extrem wichtig ist.
+Der Autor empfiehlt diesen Service jedem anderen Autor!
+
+Die Mitarbeiter von \href{http://www.antiy.net/}{Antiy Labs} halfen ebenfalls bei der Übersetzung.
+\href{http://www.epubit.com.cn/book/onlinechapter/51413}{Hier ist das Vorwort} von ihnen.

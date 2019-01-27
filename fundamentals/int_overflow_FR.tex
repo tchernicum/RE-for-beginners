@@ -1,0 +1,59 @@
+\mysection{Dépassement d'entier}
+
+J'ai intentionnellement mis cette section après celle sur la représentation des nombres
+signés.
+
+Tout d'abord, regardons l'implémentation de la fonction  \emph{itoa()} dans \InSqBrackets{\KRBook}:
+
+\begin{lstlisting}[style=customc]
+void itoa(int n, char s[])
+{
+        int i, sign;
+        if ((sign = n) < 0) /* record sign */
+                n = -n; /* make n positive */
+        i = 0;
+        do { /* generate digits in reverse order */
+                s[i++] = n % 10 + '0'; /* get next digit */
+        } while ((n /= 10) > 0); /* delete it */
+        if (sign < 0)
+                s[i++] = '-';
+        s[i] = '\0';
+        strrev(s);
+}
+\end{lstlisting}
+
+( Le code source complet: \url{https://github.com/DennisYurichev/RE-for-beginners/blob/master/fundamentals/itoa_KR.c} )
+
+Elle a un bogue subtil. Essayez de le trouver. Vous pouvez téléchargez le code source,
+le compiler, etc.
+La réponse se trouve à la page suivante.
+
+\clearpage
+
+De \InSqBrackets{\KRBook}:
+
+\begin{framed}
+\begin{quotation}
+Exercice 3-4. Dans un système de représentation des nombres par complément à deux
+notre version de \emph{itoa} ne peut pas traiter le plus grand nombre négatif. c'est-à-
+dire la valeur de \emph{n} égale à $-(2^{wordsize-1})$. Pourquoi ? Modifiez \emph{itoa}
+de façon à ce qu'elle traite ce cas correctement, quelle que soit la machine utilisée.
+\end{quotation}
+\end{framed}
+
+La réponse est: la fonction ne peut pas traiter le plus grand nombre négatif (INT\_MIN
+ou 0x80000000 ou -2147483648) correctement.
+
+Comment changer le signe? Inverser tous les bits et ajouter 1.
+Si vous inversez tous les bits de la valeur INT\_MIN (0x80000000), ça donne 0x7fffffff.
+Ajouter 1 et vous obtenez à nouveau 0x80000000.
+C'est un artefact important du système de complément à deux.
+
+Lectures  complémentaires:
+
+\begin{itemize}
+\item blexim -- Basic Integer Overflows\footnote{\url{http://phrack.org/issues/60/10.html}}
+
+\item Yannick Moy, Nikolaj Bjørner, et David Sielaff -- Modular Bug-finding for Integer Overflows in the Large: Sound, Efficient, Bit-precise Static Analysis\footnote{\url{https://yurichev.com/mirrors/SMT/z3prefix.pdf}}
+\end{itemize}
+

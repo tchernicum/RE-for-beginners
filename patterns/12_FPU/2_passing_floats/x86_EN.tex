@@ -9,8 +9,7 @@ Let's see what we get in (MSVC 2010):
 
 \FLD and \FSTP move variables between the data segment and the FPU stack. 
 \GTT{pow()}\footnote{a standard C function, raises a number to the given power (exponentiation)}
-takes both values from the stack of the FPU and 
-returns its result in the \ST{0} register.
+takes both values from the stack and returns its result in the \ST{0} register.
 \printf takes 8 bytes from the local stack and interprets them as \Tdouble type variable.
 
 By the way, a pair of \MOV instructions could be used here for moving values from the memory

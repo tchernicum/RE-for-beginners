@@ -10,9 +10,9 @@
 \caption{Зашифрованный файл в Midnight Commander}
 \end{figure}
 
-Зашифрованный файл можно скачать \href{https://github.com/dennis714/RE-for-beginners/blob/master/ff/XOR/mask_2/files/cipher.txt}{здесь}.
+Зашифрованный файл можно скачать \href{https://github.com/DennisYurichev/RE-for-beginners/blob/master/ff/XOR/mask_2/files/cipher.txt}{здесь}.
 
-Утилита \IT{ent} в Linux сообщает о $\textasciitilde{}7.5$ бит на байт, и это высокий уровень энтропии (\myref{entropy}),
+Утилита \emph{ent} в Linux сообщает о $\textasciitilde{}7.5$ бит на байт, и это высокий уровень энтропии (\myref{entropy}),
 что близко к сжатому или правильно зашифрованному файлу.
 Но все-таки, мы ясно видим некоторый шаблон, здесь есть блоки длиной в 17 байт, и вы можете увидеть что-то вроде лестницы,
 сдвигающеся на 1 байт на каждой 16-байтной линии.
@@ -94,7 +94,7 @@ for N in range(KEY_LEN):
     print possible_keys, "len=", len(possible_keys)
 \end{lstlisting}
 
-(Полная версия исходного кода \href{https://github.com/dennis714/RE-for-beginners/blob/master/ff/XOR/mask_2/files/decrypt2.py}{здесь}.)
+(Полная версия исходного кода \href{https://github.com/DennisYurichev/RE-for-beginners/blob/master/ff/XOR/mask_2/files/decrypt2.py}{здесь}.)
 
 И вот вывод:
 
@@ -218,7 +218,7 @@ Out[]= 5.99049
 ОК, будем считать что средняя частота появления пробела в английском тексте это 1 пробел на 4..7 символов.
 
 И снова хорошие новости: мы можем измерять частоту пробелов во время постепенного дешифрования файла.
-Теперь я считаю пробелы в каждом \IT{ломтике} и выкидываю 1-байтные ключи, которые приводят к результатам со слишком
+Теперь я считаю пробелы в каждом \emph{ломтике} и выкидываю 1-байтные ключи, которые приводят к результатам со слишком
 малым количеством пробелов
 (или слишком большим, но это почти невозможно учитывая такой короткий ключ):
 
@@ -255,7 +255,7 @@ for N in range(KEY_LEN):
     print possible_keys, "len=", len(possible_keys)
 \end{lstlisting}
 
-(Полная версия исходного кода \href{https://github.com/dennis714/RE-for-beginners/blob/master/ff/XOR/mask_2/files/decrypt3.py}{здесь}.)
+(Полная версия исходного кода \href{https://github.com/DennisYurichev/RE-for-beginners/blob/master/ff/XOR/mask_2/files/decrypt3.py}{здесь}.)
 
 Это выдает всего один возможный байт для каждого байта ключа:
 
@@ -336,7 +336,7 @@ my occupation.
 ...
 \end{lstlisting}
 
-(Полная версия текста \href{https://github.com/dennis714/RE-for-beginners/blob/master/ff/XOR/mask_2/files/plain.txt}{здесь}.)
+(Полная версия текста \href{https://github.com/DennisYurichev/RE-for-beginners/blob/master/ff/XOR/mask_2/files/plain.txt}{здесь}.)
 
 Текст выглядит правильным.
 Да, я придумал этот пример и выбрал хорошо известный текст Конан Дойля, но это очень близко к тому,

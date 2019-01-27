@@ -1,6 +1,6 @@
-\subsection{Losrqu'il y a quelques déclarations \IT{case} dans un bloc}
+\subsection{Lorsqu'il y a quelques déclarations \emph{case} dans un bloc}
 
-Voici une construction très répandue: quelques déclarations \IT{case} pour un seul bloc:
+Voici une construction très répandue: quelques déclarations \emph{case} pour un seul bloc:
 
 \lstinputlisting[style=customc]{patterns/08_switch/3_several_cases/several_cases.c}
 
@@ -18,7 +18,7 @@ Tout d'abord, la valeur entrée est utilisée comme un index dans la table d'ind
 (ligne 13).
 
 Voici un petit récapitulatif pour les valeurs dans la table:
-0 est le premier bloc \IT{case} (pour les valeurs 1, 2, 7, 10),
+0 est le premier bloc \emph{case} (pour les valeurs 1, 2, 7, 10),
 1 est le second (pour les valeurs 3, 4, 5),
 2 est le troisième (pour les valeurs 8, 9, 21),
 3 est le quatrième (pour la valeur 22),
@@ -62,8 +62,8 @@ de l'autre. Donc la table des sauts consiste en de simple octets.
 
 \lstinputlisting[caption=\Optimizing GCC 4.9.1 ARM64,style=customasmARM]{patterns/08_switch/3_several_cases/ARM64_GCC491_O3_FR.s}
 
-Compilons cet exemple en fichier objet et ouvrons-le dans \IDA. Voici la table des
-sauts:
+Compilons cet exemple en un fichier objet et ouvrons-le dans \IDA. Voici la table
+des sauts:
 
 \lstinputlisting[caption=jumptable in IDA,style=customasmARM]{patterns/08_switch/3_several_cases/ARM64_GCC491_O3_IDA.lst}
 
@@ -72,12 +72,12 @@ du label \TT{Lrtx4}.
 
 Dans le cas de 22, 0 est multiplié par 4, ce qui donne 0.
 
-Juste après le label \TT{Lrtx4} se trouve le label \TT{L7}, oú se trouve le code
+Juste après le label \TT{Lrtx4} se trouve le label \TT{L7}, où se trouve le code
 qui affiche \q{22}.
 
 Il n'y a pas de table des sauts dans le segment de code, elle est allouée dans
 la section .rodata (il n'y a pas de raison de l'allouer dans le segment de code).
 
 Il y a aussi des octets négatifs (0xF7), ils sont utilisés pour sauter en arrière
-dans le code qui affiche la chaîne\q{default} (en \TT{.L2}).
+dans le code qui affiche la chaîne \q{default} (en \TT{.L2}).
 

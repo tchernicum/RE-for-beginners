@@ -20,7 +20,7 @@ $SG3830	DB	'a=%d; b=%d; c=%d', 00H
 Presque la même chose, mais maintenant nous voyons que les arguments de \printf sont
 poussés sur la pile en ordre inverse. Le premier argument est poussé en dernier.
 
-A propos, dans un environnement 32-bit les variables de type \Tint ont une taille
+À propos, dans un environnement 32-bit les variables de type \Tint ont une taille
 de 32-bit. ce qui fait 4 octets.
 
 Donc, nous avons 4 arguments ici. $4*4 = 16$~---ils occupent exactement 16 octets
@@ -30,10 +30,10 @@ dans la pile: un pointeur 32-bit sur une chaîne et 3 nombres de type \Tint.
 \myindex{x86!\Registers!ESP}
 \myindex{cdecl}
 Lorsque le \glslink{stack pointer}{pointeur de pile} (registre \ESP) est re-modifié
-par l'instruction\\ \INS{ADD ESP, X} après un appel de fonction, souvent, le nombre
+par l'instruction \INS{ADD ESP, X} après un appel de fonction, souvent, le nombre
 d'arguments de la fonction peut-être déduit en divisant simplement X par 4.
 
-Bien sûr, cela est spécifique à la convention d'appel \IT{cdecl}, et seulement
+Bien sûr, cela est spécifique à la convention d'appel \emph{cdecl}, et seulement
 pour un environnement 32-bit.
 
 Voir aussi la section sur les conventions d'appel ~(\myref{sec:callingconventions}).
@@ -66,12 +66,12 @@ Voici un exemple réel:
 \myindex{\olly}
 
 Maintenant, essayons de charger cet exemple dans \olly.
-C'est l'un des débuggers en espace-utilisateur win32 les plus populaire.
+C'est l'un des débuggers en espace utilisateur win32 les plus populaire.
 Nous pouvons compiler notre exemple avec l'option \GTT{/MD} de MSVC 2012, qui signifie
 lier avec \GTT{MSVCR*.DLL}, ainsi nous verrons clairement les fonctions importées
 dans le debugger.
 
-Ensuite chargeons lexécutable dans \olly.
+Ensuite chargeons l'exécutable dans \olly.
 Le tout premier point d'arrêt est dans \GTT{ntdll.dll}, appuyez
 sur F9 (run).
 Le second point d'arrêt est dans le code \ac{CRT}.
@@ -103,7 +103,7 @@ Presser F8 (\stepover) 6 fois, i.e. sauter 6 instructions:
 
 Maintenant le \ac{PC} pointe vers l'instruction \INS{CALL printf}.
 \olly, comme d'autres debuggers, souligne la valeur des registres qui ont changé.
-Donc, chaque fois que vous appusez sur F8, \EIP change et sa valeur est affichée en rouge.
+Donc, chaque fois que vous appuyez sur F8, \EIP change et sa valeur est affichée en rouge.
 \ESP change aussi, car les valeurs des arguments sont poussées sur la pile.\\
 \\
 Où sont les valeurs dans la pile?
@@ -118,11 +118,11 @@ rectangle rouge a été ajouté par l'auteur dans un éditeur graphique)}
 
 Nous pouvons voir 3 colonnes ici: adresse dans la pile, valeur dans la pile et quelques
 commentaires additionnels d'\olly.
-\olly reconnait les chaînes de type \printf{}, donc il signale ici la chaîne et
-les 3 valeurs \IT{attachées} à elle.
+\olly reconnaît les chaînes de type \printf{}, donc il signale ici la chaîne et
+les 3 valeurs \emph{attachées} à elle.
 
-Il est possible de faire un clock-droit sur la chaîne de format, cliquer sur \q{Follow in dump},
-et la chaîne de format va apparaitre dans la fenêtre en bas à gauche du debugger. qui affiche
+Il est possible de faire un clic-droit sur la chaîne de format, cliquer sur \q{Follow in dump},
+et la chaîne de format va apparaître dans la fenêtre en bas à gauche du debugger. qui affiche
 toujours des parties de la mémoire.
 Ces valeurs en mémoire peuvent être modifiées.
 Il est possible de changer la chaîne de format, auquel cas le résultat de notre
@@ -157,9 +157,9 @@ ses propres besoins.
 
 Un fait très important est que ni la valeur de \ESP, ni l'état de la pile n'ont
 été changés!
-Nous voyons clarirement que la chaîne de format et les trois valeurs corrspondantes
+Nous voyons clairement que la chaîne de format et les trois valeurs correspondantes
 sont toujours là.
-C'est en effet le comportement de la convention d'appel \IT{cdecl}: \glslink{callee}{l'appelée}
+C'est en effet le comportement de la convention d'appel \emph{cdecl}: \glslink{callee}{l'appelée}
 ne doit pas remettre \ESP à sa valeur précédente.
 \glslink{caller}{L'appelant} est responsable de le faire.
 
@@ -176,9 +176,9 @@ Appuyer sur F8 à nouveau pour exécuter l'instruction \INS{ADD ESP, 10}:
 \ESP a changé, mais les valeurs sont toujours dans la pile!
 Oui, bien sûr; il n'y a pas besoin de mettre ces valeurs à zéro ou quelque chose
 comme ça.
-Tout ce qui se trouve au dessus du pointeur de pile (\ac{SP}) est du \IT{bruit}
-ou des \IT{données incorrectes} et n'a pas du tout de signification.
-Ca prendrait beaucoup de temps de mettre à zéro les entrées inutilisées de la
+Tout ce qui se trouve au dessus du pointeur de pile (\ac{SP}) est du \emph{bruit}
+ou des \emph{déchets} et n'a pas du tout de signification.
+Ça prendrait beaucoup de temps de mettre à zéro les entrées inutilisées de la
 pile, et personne n'a vraiment besoin de le faire.
 
 \myparagraph{GCC}
@@ -186,29 +186,7 @@ pile, et personne n'a vraiment besoin de le faire.
 Maintenant, compilons la même programme sous Linux en utilisant GCC 4.4.1 et regardons
 ce que nous obtenons dans \IDA:
 
-\begin{lstlisting}[style=customasmx86]
-main            proc near
-
-var_10          = dword ptr -10h
-var_C           = dword ptr -0Ch
-var_8           = dword ptr -8
-var_4           = dword ptr -4
-
-                push    ebp
-                mov     ebp, esp
-                and     esp, 0FFFFFFF0h
-                sub     esp, 10h
-                mov     eax, offset aADBDCD ; "a=%d; b=%d; c=%d"
-                mov     [esp+10h+var_4], 3
-                mov     [esp+10h+var_8], 2
-                mov     [esp+10h+var_C], 1
-                mov     [esp+10h+var_10], eax
-                call    _printf
-                mov     eax, 0
-                leave
-                retn
-main            endp
-\end{lstlisting}
+\lstinputlisting[style=customasmx86]{patterns/03_printf/x86/x86_1.asm}
 
 Il est visible que la différence entre le code MSVC et celui de GCC est seulement
 dans la manière dont les arguments sont stockés sur la pile.
@@ -244,7 +222,7 @@ pas le montrer, mais pourrait.
 
 \begin{lstlisting}
 (gdb) run
-Starting program: /home/dennis/polygon/1 
+Starting program: /home/dennis/polygon/1
 
 Breakpoint 1, __printf (format=0x80484f0 "a=%d; b=%d; c=%d") at printf.c:29
 29	printf.c: No such file or directory.
@@ -260,8 +238,8 @@ de la pile.
 0xbffff13c:	0xb7e29905	0x00000001
 \end{lstlisting}
 
-Le tout premier élément est \ac{RA} (\GTT{0x0804844a}).
-Nous pouvons le vérifer en désassemblant la mémoire à cette adresse:
+Le tout premier élément est la \ac{RA} (\GTT{0x0804844a}).
+Nous pouvons le vérifier en désassemblant la mémoire à cette adresse:
 
 \begin{lstlisting}[label=NOP_as_XCHG_example,style=customasmx86]
 (gdb) x/5i 0x0804844a
@@ -308,8 +286,8 @@ En effet, le fichier \GTT{1.c} se trouve dans le répertoire courant, et \ac{GDB
 y a trouvé la chaîne.
 Comment est-ce que \ac{GDB} sait quelle ligne est exécutée à un instant donné?
 Cela est du au fait que lorsque le compilateur génère les informations de debug,
-sauve également une table contenant la relation entre le numéro des lignes du code
-source et les adresses des instructions.
+il sauve également une table contenant la relation entre le numéro des lignes du
+code source et les adresses des instructions.
 GDB est un debugger niveau source, après tout.
 
 Examinons les registres.

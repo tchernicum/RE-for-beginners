@@ -2,7 +2,7 @@
 
 Jusqu'à la standardisation du support de la virgule flottante, certains fabricants
 de processeur ont ajouté leur propre instructions étendues.
-Ensuite, VFP (\IT{Vector Floating Point}) a été standardisé.
+Ensuite, VFP (\emph{Vector Floating Point}) a été standardisé.
 
 Une différence importante par rapport au x86 est qu'en ARM, il n'y a pas de pile,
 vous travaillez seulement avec des registres.
@@ -36,9 +36,9 @@ Il est à noter que ces instructions, tout comme les registres D, sont destinée
 seulement pour les nombres à virgules flottantes, mais peuvent aussi être utilisées
 pour des opérations SIMD (NEON) et cela va être montré bientôt.
 
-Les arguments sont passés à la fonction de manière classique, via les registres-R,
-toutefois, chaque nombres en double précision a une taille de 64 bits, donc deux
-registres-R sont nécessaire pour passer chacun d'entre eux.
+Les arguments sont passés à la fonction de manière classique, via les R-registres,
+toutefois, chaque nombre en double précision a une taille de 64 bits, donc deux
+R-registres sont nécessaires pour passer chacun d'entre eux.
 
 \INS{VMOV D17, R0, R1} au début, combine les deux valeurs 32-bit de \Reg{0} et \Reg{1}
 en une valeur 64-bit et la sauve dans \GTT{D17}.
@@ -62,7 +62,7 @@ Le code pour Thumb-2 est similaire.
 
 Code généré par Keil pour un processeur sans FPU ou support pour NEON.
 
-Les nombres en virgule flottante double précision sont passés par des registres-R
+Les nombres en virgule flottante double précision sont passés par des R-registres
 génériques et au lieu d'instructions FPU, des fonctions d'une bibliothèque de service
 sont appelées (comme \GTT{\_\_aeabi\_dmul}, \GTT{\_\_aeabi\_ddiv}, \GTT{\_\_aeabi\_dadd})
 qui émulent la multiplication, la division et l'addition pour les nombres à virgule
@@ -70,7 +70,7 @@ flottante.
 
 Bien sûr, c'est plus lent qu'un coprocesseur FPU, mais toujours mieux que rien.
 
-A propos, de telles bibliothèques d'émulation de FPU étaient très populaire dans
+À propos, de telles bibliothèques d'émulation de FPU étaient très populaires dans
 le monde x86 lorsque les coprocesseurs étaient rares et chers, et étaient installés
 seulement dans des ordinateurs coûteux.
 
@@ -79,9 +79,9 @@ seulement dans des ordinateurs coûteux.
 \myindex{ARM!armhf}
 \myindex{ARM!hard float}
 
-L'émulation d'un coprocesseur FPU est appelée \IT{soft float} ou \IT{armel} (\IT{emulation})
+L'émulation d'un coprocesseur FPU est appelée \emph{soft float} ou \emph{armel} (\emph{emulation})
 dans le monde ARM, alors que l'utilisation des instructions d'un coprocesseur FPU
-est appelée \IT{hard float} ou \IT{armhf}.
+est appelée \emph{hard float} ou \emph{armhf}.
 
 \iffalse
 % TODO разобраться...
@@ -89,8 +89,8 @@ est appelée \IT{hard float} ou \IT{armhf}.
 
 Par exemple, le noyau Linux pour Raspberry Pi est compilé en deux variantes.
 
-Dans le case \IT{soft float}, les arguments sont passés par les registres-R, et dans
-le cas \IT{hard float}---par les registes-D.
+Dans le case \emph{soft float}, les arguments sont passés par les R-registres, et dans
+le cas \emph{hard float}---par les registes-D.
 
 Et c'est ce qui empêche d'utiliser des bibliothèques armfh pour de code armel ou
 vice-versa, et c'est pourquoi le code dans les distributions Linux doit être compilé
@@ -109,11 +109,11 @@ Code très compact:
 
 GCC \NonOptimizing est plus verbeux.
 
-Il y a des nombreuses modifications de valeurs inutile, incluant du code clairement
+Il y a des nombreuses modifications de valeur inutiles, incluant du code clairement
 redondant (les deux dernières instructions \INS{FMOV}). Sans doute que GCC 4.9 n'est
 pas encore très bon pour la génération de code ARM64.
 
-Il est utile de noter qu'ARM64 possède des registres 64-bit, et que les registres-D
+Il est utile de noter qu'ARM64 possède des registres 64-bit, et que les D-registres
 sont aussi 64-bit.
 
 Donc le compilateur est libre de sauver des valeurs de type \Tdouble dans \ac{GPR}s

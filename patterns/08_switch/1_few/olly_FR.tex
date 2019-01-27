@@ -3,8 +3,7 @@
 
 Comme cet exemple est compliqué, traçons-le dans \olly.
 
-\olly peut détecter de telles constructions avec switch(), et ajoute des commentaires
-utiles.
+\olly peut détecter des constructions avec switch(), et ajoute des commentaires utiles.
 \EAX contient 2 au début, c'est la valeur du paramètre de la fonction:
 
 \begin{figure}[H]
@@ -19,7 +18,7 @@ contient maintenant le premier (et unique) argument de la fonction}
 0 est soustrait de 2 dans \EAX.
 Bien sûr, \EAX contient toujours 2.
 Mais le flag \ZF est maintenant à 0, indiquant que le résultat est différent de
-zèro:
+zéro:
 
 \begin{figure}[H]
 \centering
@@ -50,7 +49,7 @@ Le \DEC suivant est exécuté.
 \label{fig:switch_few_olly4}
 \end{figure}
 
-\olly montre que le saut va être effectué (\IT{Jump is taken}).
+\olly montre que le saut va être effectué (\emph{Jump is taken}).
 
 \clearpage
 Un pointeur sur la chaîne \q{two} est maintenant écrit sur la pile:
@@ -86,7 +85,7 @@ Maintenant \printf traite la chaîne à l'adresse \TT{0x00FF3010} comme c'est so
 seul argument et l'affiche.
 
 \clearpage
-Ceci est la dernière insruction de \printf:
+Ceci est la dernière instruction de \printf:
 
 \begin{figure}[H]
 \centering

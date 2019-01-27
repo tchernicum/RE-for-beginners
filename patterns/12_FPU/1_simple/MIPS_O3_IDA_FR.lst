@@ -3,32 +3,25 @@ f:
 ; $f14-$f15=B
                 lui     $v0, (dword_C4 >> 16) ; ?
 ; charge la partie 32-bit basse de la constante 3.14 dans $f0:
-; load low 32-bit part of 3.14 constant to $f0:
                 lwc1    $f0, dword_BC
                 or      $at, $zero            ; slot de d§é§lai de chargement, NOP
 ; charge la partie 32-bit haute de la constante 3.14 dans $f1:
-; load high 32-bit part of 3.14 constant to $f1:
                 lwc1    $f1, $LC0
                 lui     $v0, ($LC1 >> 16)     ; ?
 ; A dans $f12-$f13, la constante 3.14 dans $f0-$f1, effectuer la division:
-; A in $f12-$f13, 3.14 constant in $f0-$f1, do division:
                 div.d   $f0, $f12, $f0
 ; $f0-$f1=A/3.14
 ; charge la partie 32-bit basse de la constante 4.1 dans $f2:
-; load low 32-bit part of 4.1 to $f2:
                 lwc1    $f2, dword_C4
                 or      $at, $zero            ; slot de d§é§lai de chargement, NOP
 ; charge la partie 32-bit haute de la constante 4.1 dans $f3:
-; load high 32-bit part of 4.1 to $f3:
                 lwc1    $f3, $LC1
                 or      $at, $zero            ; slot de d§é§lai de chargement, NOP
 ; B dans $f14-$f15, la constante 4.1 dans $f2-$f3, effectuer la multiplication:
-; B in $f14-$f15, 4.1 constant in $f2-$f3, do multiplication:
                 mul.d   $f2, $f14, $f2
 ; $f2-$f3=B*4.1
                 jr      $ra
 ; ajouter les parties 64-bit et laisser le r§é§sultat dans $f0-$f1:
-; sum 64-bit parts and leave result in $f0-$f1:
                 add.d   $f0, $f2              ; slot de d§é§lai de branchement, NOP
 
 

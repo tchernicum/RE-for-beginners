@@ -1,15 +1,15 @@
 \subsubsection{\NonOptimizingKeilVI (\ARMMode)}
 
-Commençons par compiler notre exemple en Keil:
+Commençons par compiler notre exemple avec Keil:
 
 \begin{lstlisting}
 armcc.exe --arm --c90 -O0 1.c 
 \end{lstlisting}
 
 \myindex{\IntelSyntax}
-Le compilateur \IT{armcc} produit un listing assembleur en syntaxe Intel, mais il dispose de macros
+Le compilateur \emph{armcc} produit un listing assembleur en syntaxe Intel, mais il dispose de macros
 de haut niveau liées au processeur ARM\footnote{e.g. les instructions \PUSH/\POP manquent en mode
-ARM}, mais il est plus important pour nous de voir les instructions \q{telles quelles} donc
+ARM}. Comme il est plus important pour nous de voir les instructions \q{telles quelles}, nous
 regardons le résultat compilé dans \IDA.
 
 \begin{lstlisting}[caption=\NonOptimizingKeilVI (\ARMMode) \IDA,style=customasmARM]
@@ -24,7 +24,7 @@ regardons le résultat compilé dans \IDA.
 \end{lstlisting}
 
 Dans l'exemple, nous voyons facilement que chaque instruction a une taille de 4 octets.
-En effet, nous avons compilé notre code en mode ARM, pas pout Thumb.
+En effet, nous avons compilé notre code en mode ARM, pas pour Thumb.
 
 \myindex{ARM!\Instructions!STMFD}
 \myindex{ARM!\Instructions!POP}
@@ -32,19 +32,19 @@ La toute première instruction, \INS{STMFD SP!, \{R4,LR\}}\footnote{\ac{STMFD}},
 fonctionne comme une instruction \PUSH en x86, écrivant la valeur de deux registres
 (\Reg{4} et \ac{LR}) sur la pile.
 
-En effet, dans le listing de la sortie du compilateur \IT{armcc}, dans un souci
+En effet, dans le listing de la sortie du compilateur \emph{armcc}, dans un souci
 de simplification, il montre l'instruction \INS{PUSH \{r4,lr\}}.
 Mais ce n'est pas très précis. L'instruction \PUSH est seulement disponible dans
 le mode Thumb.  Donc, pour rendre les choses moins confuses, nous faisons cela
 dans \IDA.
 
-Cette instruction décrémente (\glspl{decrement}) d'abord le pointeur de pile \ac{SP}
+Cette instruction \glslink{decrement}{décrémente} d'abord le pointeur de pile \ac{SP}
 pour qu'il pointe sur de l'espace libre pour de nouvelles entrées, ensuite elle
 sauve les valeurs des registres \Reg{4} et \ac{LR} à cette adresse.
 
 Cette instruction (comme l'instruction \PUSH en mode Thumb) est capable de
 sauvegarder plusieurs valeurs de registre à la fois, ce qui peut être très utile.
-A propos, elle n'a pas d'équivalent en x86.
+À propos, elle n'a pas d'équivalent en x86.
 On peut noter que l'instruction \TT{STMFD} est une généralisation de l'instruction
 \PUSH (étendant ses fonctionnalités), puisqu'elle peut travailler avec n'importe
 quel registre, pas seulement avec \ac{SP}.
@@ -82,12 +82,12 @@ Lorsque la fonction \printf termine son exécution elle doit avoir savoir où el
 doit redonner le contrôle.
 C'est pourquoi chaque fonction passe le contrôle à l'adresse se trouvant dans le registre \ac{LR}.
 
-C'est une différence entre un processeur \ac{RISC} \q{pure} comme ARM et un
+C'est une différence entre un processeur \ac{RISC} \q{pur} comme ARM et un
 processeur \ac{CISC} comme x86, où l'adresse de retour est en général sauvée
 sur la pile.
-En lire plus à ce propos dans la section~(\myref{sec:stack}) suivante.
+Pour aller plus loin, lire la section~(\myref{sec:stack}) suivante.
 
-A propos, une adresse absolue ou un offset de 32-bit ne peuvent être encodés
+À propos, une adresse absolue ou un offset de 32-bit ne peuvent être encodés
 dans l'instruction 32-bit \TT{BL} car il n'y a qu'un espace de 24 bits.
 Comme nous devons nous en souvenir, toutes les instructions ont une taille de
 4 octets (32 bits).
@@ -107,15 +107,15 @@ mise dans le registre \Reg{0}.
 \myindex{ARM!\Registers!Link Register}
 \myindex{ARM!\Instructions!LDMFD}
 \myindex{ARM!\Instructions!POP}
-La dernière instruction \INS{LDMFD SP!, {R4,PC}}\footnote{\ac{LDMFD} est
+La dernière instruction est \INS{LDMFD SP!, {R4,PC}}\footnote{\ac{LDMFD} est
 l'instruction inverse de \ac{STMFD}}.
 Elle prend des valeurs sur la pile (ou de toute autre endroit en mémoire)
 afin de les sauver dans \Reg{4} et \ac{PC}, et \glslink{increment}{incrémente}
-le pointeur de pile \gls{stack pointer} \ac{SP}.
+le \glslink{stack pointer}{pointeur de pile} \ac{SP}.
 Cela fonctionne ici comme \POP.\\
-N.B. La toute première instruction \TT{STMFD} a sauvée la paire de registres
-\Reg{4} et \ac{LR} sur la pile, mais \Reg{4} et \ac{PC} sont \IT{restaurés}
- pendant l'exécution de \TT{LDMFD}.
+N.B. La toute première instruction \TT{STMFD} a sauvé la paire de registres
+\Reg{4} et \ac{LR} sur la pile, mais \Reg{4} et \ac{PC} sont \emph{restaurés}
+pendant l'exécution de \TT{LDMFD}.
 
 Comme nous le savons déjà, l'adresse où chaque fonction doit redonner le
 contrôle est usuellement sauvée dans le registre \ac{LR}.

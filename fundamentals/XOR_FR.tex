@@ -1,0 +1,171 @@
+﻿\mysection{XOR (OU exclusif)}
+\label{XOR_property}
+
+\input{fundamentals/XOR_property_FR}
+
+\subsection{Langage courant}
+
+L'opération XOR est présente dans le langage courant.
+Lorsque quelqu'un demande ``s'il te plaît, achète des pommes ou des bananes'', ceci
+signifie généralement ``achète le premier item ou le second, mais pas les deux''---ceci
+est exactement un OU exclusif, car le OU logique signifierait ``les deux objets sont bien aussi''.
+
+Certaines personnes suggèrent que ``et/ou'' devraient être utilisés dans le langage
+courant pour mettre l'accent sur le fait que le OU logique est utilisé à la place
+du OU exclusif: \url{https://en.wikipedia.org/wiki/And/or}.
+
+\subsection{Chiffrement}
+
+XOR est beaucoup utilisé à la fois par le chiffrement amateur (\ref{simple_XOR_encryption})
+et \emph{réel} (au moins dans le \emph{réseau de Feistel}).
+
+XOR est trés pratique ici car:
+$cipher\_text = plain\_text \oplus key$ et alors:
+$(plain\_text \oplus key) \oplus key = plain\_text$.
+
+\subsection{\ac{RAID}4}
+\index{RAID4}
+
+\ac{RAID}4 offre une méthode très simple pour protéger les disques dur.
+Par exemple, il y a quelques disques ($D_1$, $D_2$, $D_3$, etc.) et un disque de
+parité ($P$).
+Chaque bit/octet écrit sur le disque de parité est calculé et écrit au vol:
+
+\begin{equation} \label{eq:RAID4}
+P = D_1 \oplus D_2 \oplus D_3
+\end{equation}
+
+Si n'importe lequel des disques est défaillant, par exemple, $D_2$, il est restauré
+en utilisant la même méthode:
+
+\begin{equation}
+D_2 = D_1 \oplus P \oplus D_3
+\end{equation}
+
+Si le disque de parité est défaillant, il est restauré en utilisant la méthode \ref{eq:RAID4}.
+Si deux disques sont défaillants, alors il n'est pas possible de les restaurer les
+deux.
+
+\ac{RAID}5 est plus avancé, mais cet propriété de XOR y est encore utilisé.
+
+C'est pourquoi les contrôleurs \ac{RAID} ont des ``accélérateurs XOR'' matériel
+pour aider les opérations XOR sur de larges morceaux de données écrites au vol.
+Depuis que les ordinateurs deviennent de plus en plus rapide, cela peut maintenant
+être effectué au niveau logiciel, en utilisant \ac{SIMD}.
+
+\subsection{Algorithme d'échange XOR}
+
+C'est difficile à croire, mais ce code échangent les valeurs dans \EAX et \EBX sans
+l'aide d'aucun autre registre ni d'espace mémoire.
+
+\begin{lstlisting}[style=customasmx86]
+xor eax, ebx
+xor ebx, eax
+xor eax, ebx
+\end{lstlisting}
+
+Cherchons comment ça fonctionne.
+D'abord, récrivons le afin de retirer le langage d'assemblage x86:
+
+\begin{lstlisting}
+X = X XOR Y
+Y = Y XOR X
+X = X XOR Y
+\end{lstlisting}
+
+Qu'est ce que X et Y valent à chaque étape?
+Gardez à l'esprit cette règle simple: $(X \oplus Y) \oplus Y = X$ pour toutes valeurs
+de X et Y.
+
+Regardons,
+après la 1ère étape $X$ vaut $X \oplus Y$;
+après la 2ème étape $Y$ vaut $Y \oplus (X \oplus Y) = X$;
+après la 3ème étape $X$ vaut $(X \oplus Y) \oplus X = Y$.
+
+Difficile de dire si on doit utiliser cette astuce, mais elle est un bon exemple de
+démonstration des propriétés de XOR.
+
+L'article de Wikipédia (\url{https://en.wikipedia.org/wiki/XOR_swap_algorithm}) donne
+d'autres explication: l'addition et la soustraction peuvent être utilisées à la place
+de XOR:
+
+\begin{lstlisting}
+X = X + Y
+Y = X - Y
+X = X - Y
+\end{lstlisting}
+
+Regardons:
+après la 1ère étape $X$ vaut $X+Y$;
+après la 2ème étape $Y$ vaut $X+Y-Y=X$;
+après la 3ème étape $X$ vaut $X+Y-X=Y$.
+
+\subsection{liste chaînée XOR}
+\index{Doubly linked list}
+
+Une liste doublement chaînée est une liste dans laquelle chaque élément a un lien
+sur l'élément précédent et sur le suivant.
+Ainsi, il est très facile de traverser la liste dans un sens ou dans l'autre.
+\TT{std::list}, qui implémente les listes doublement chaînées en C++, est également
+examiné dans ce livre: \ref{std_list}.
+
+Donc chaque élément possède deux pointeurs.
+Est-il possible, peut-être dans un environnement avec peu de mémoire, de garder toutes
+ces fonctionnalités, avec un seul pointeur au lieu de deux?
+Oui, si la valeur de $prev \oplus next$ est stockée dans cette cellule mémoire, qui
+est habituellement appelé ``lien''.
+
+Peut-être que nous pouvons dire que l'adresse de l'élément précédent est ``chiffrée''
+en utilisant l'adresse de l'élément suivant et réciproquement:
+l'adresse de l'élément suivant est ``chiffrée'' en utilisant l'adresse de l'élément
+précédent.
+
+Lorsque nous traversons cette liste en avant, nous connaissons toujours l'adresse
+de l'élément précédent, donc nous pouvons ``déchiffrer'' ce champ et obtenir l'adresse
+de l'élément suivant.
+De même, il est possible de traverser cette liste en arrière, ``déchiffrer'' ce champ
+en utilisant l'adresse de l'élément suivant.
+
+Mais il n'est pas possible de trouver l'adresse de l'élément précédent ou suivant
+d'un élément spécifique sans connaître l'adresse du premier.
+
+Deux éléments pour compléter cette solution: le premier élément aura toujours l'adresse
+de l'élément suivant sans aucun XOR, le dernier élément aura l'adresse du premier
+élément sans aucun XOR.
+
+Maintenant, résumons. Ceci est un exemple d'une liste doublement chaînée de 5 éléments.
+$A_x$ est l'adresse de l'élément.
+
+\begin{center}
+\begin{tabular}{ | l | l | }
+	\hline
+	\HeaderColor adresse & \HeaderColor contenu du champ \emph{link} \\
+	\hline
+	$A_0$ & $A_1$ \\
+	\hline
+	$A_1$ & $A_0 \oplus A_2$ \\
+	\hline
+	$A_2$ & $A_1 \oplus A_3$ \\
+	\hline
+	$A_3$ & $A_2 \oplus A_4$ \\
+	\hline
+	$A_4$ & $A_3$ \\
+	\hline
+\end{tabular}
+\end{center}
+
+À nouveau, il est difficile de dire si quelqu'un doit utiliser ce truc rusé, mais
+c'est une bonne démonstration des propriétés de XOR. Avec l'algorithme d'échange
+avec XOR, l'article de Wikipédia montre des méthodes pour utiliser l'addition et
+la soustraction au lieu de XOR:
+\url{https://en.wikipedia.org/wiki/XOR_linked_list}.
+
+% subsection:
+\input{fundamentals/zobrist_FR}
+
+\subsection{À propos}
+
+Le \emph{OR} usuel est parfois appelé \emph{OU inclusif} (ou même \emph{IOR}), par opposition
+au \emph{OU exclusif}.
+C'est ainsi dans la bibliothèque Python \emph{operator}: il y est appelé \emph{operator.ior}.
+

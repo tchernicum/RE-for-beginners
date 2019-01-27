@@ -21,7 +21,7 @@
 в регистр \EDX.
 
 Затем, если последний бит был 1, инструкция \CMOVNE\footnote{Conditional MOVe if Not Equal (\MOV если не равно)}
-(которая синонимична \CMOVNZ\footnote{Conditional MOVe if Not Zero (\MOV если не ноль)}) \IT{фиксирует} 
+(которая синонимична \CMOVNZ\footnote{Conditional MOVe if Not Zero (\MOV если не ноль)}) \emph{фиксирует} 
 новое значение \q{rt}
 копируя значение из \EDX (\q{предполагаемое значение rt}) 
 в \EAX (\q{текущее rt} которое будет возвращено в конце функции).
@@ -44,7 +44,7 @@
 
 \myparagraph{\Optimizing MSVC 2010}
 
-\lstinputlisting[caption=MSVC 2010,style=customasmx86]{patterns/14_bitfields/4_popcnt/MSVC_2010_x64_Ox_RU.asm}
+\lstinputlisting[caption=\Optimizing MSVC 2010,style=customasmx86]{patterns/14_bitfields/4_popcnt/MSVC_2010_x64_Ox_RU.asm}
 
 \myindex{x86!\Instructions!ROL}
 Здесь используется инструкция \ROL вместо 
@@ -86,7 +86,7 @@
 
 \myparagraph{\Optimizing MSVC 2012}
 
-\lstinputlisting[caption=MSVC 2012,style=customasmx86]{patterns/14_bitfields/4_popcnt/MSVC_2012_x64_Ox_RU.asm}
+\lstinputlisting[caption=\Optimizing MSVC 2012,style=customasmx86]{patterns/14_bitfields/4_popcnt/MSVC_2012_x64_Ox_RU.asm}
 
 \myindex{\CompilerAnomaly}
 \label{MSVC2012_anomaly}

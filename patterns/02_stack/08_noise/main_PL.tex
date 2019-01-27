@@ -42,7 +42,7 @@ c:\Polygon\c>st
 \end{lstlisting}
 
 Dziwne, przecież nie ustawialiśmy żadnych zmiennych w \TT{f2()}. 
-Te wartości --- to są \q{duchy}, które wciąż się znajdują na stosie.
+Te wartości to \q{pozostałości zmiennych}, które wciąż się znajdują na stosie.
 
 \clearpage
 Uruchomimy przykład w \olly:
@@ -66,27 +66,27 @@ A kiedy jest wykonywana \TT{f2()}:
 \label{fig:stack_noise_olly2}
 \end{figure}
 
-... $a$, $b$ i $c$ w funkcji \TT{f2()} znajdują się na tych samych miejscach!
+... $a$, $b$ i $c$ w funkcji \TT{f2()} znajdują się pod tymi samymi adresami!
 Taka dziwna sytuacja powstaje, kiedy kilka funkcji jest wykonywane po sobie
 i \ac{SP} powinien być taki sam przy wejściu do funkcji, tzn funkcja powinna mieć taką samą ilość argumentów. 
 Wtedy zmienne lokalne będą alokowane na te same miejsca.
 Podsumowując, wszystkie wartości na stosie (i ogólnie w pamięci) to wartości pozostałe po poprzedzających funkcjach
 Nie są one przypadkowe, lecz nieprzewidywalne.
-A jak inaczej?
+Jest jakaś inna opcja?
 Można by było czyścić stos przed wykonywaniem kolejnej funkcji,
 ale to za dużo zbędnej (i nieporzebnej) roboty.
 
 \subsubsection{MSVC 2013}
 
 Ten przykład był skompilowany w MSVC 2010.
-Ale jeden czytelnik tej książki spróbował skompilować to w MSVC 2013, uruchomił i zobaczył 3 liczby w odwrotnej kolejności:
+Jeden czytelnik tej książki spróbował skompilować to w MSVC 2013, uruchomił i zobaczył 3 liczby w odwrotnej kolejności:
 
 \begin{lstlisting}
 c:\Polygon\c>st
 3, 2, 1
 \end{lstlisting}
 
-Dkaczego?
+Dlaczego?
 Również spróbowałem skompilować ten przykład w MSVC 2013 i zobaczyłem to:
 
 \begin{lstlisting}[caption=MSVC 2013,style=customasmx86]
@@ -110,6 +110,6 @@ _f1	ENDP
 \end{lstlisting}
 
 W odróżnieniu od MSVC 2010, MSVC 2013 rozmieścił zmienne a/b/c w funkcji \TT{f2()} w kolejności odwrotnej.
-I jest to całkowicie poprawne, ponieważ w \CCpp nie ma zdefiniowanego standardu, reguły która by wyznaczała w jakiej kolejności zmienne lokalne powinne być usytuowane na stosie.
+Jest to całkowicie poprawne, ponieważ w C++ nie ma zdefiniowanego standardu, który by wyznaczał w jakiej kolejności zmienne lokalne powinne być usytuowane na stosie.
 
 

@@ -1,4 +1,4 @@
-\section{Appels systèmes (syscall-s)}
+\mysection{Appels systèmes (syscall-s)}
 
 \label{syscalls}
 \myindex{syscall}
@@ -14,8 +14,8 @@ Le noyau de l'OS et, en général, les drivers sont dans la première catégorie
 Toutes les applications sont d'habitude dans la seconde catégorie.
 
 \myindex{Glibc}
-Par exemple, le noyai Linux est dans le \IT{kernel space}, mais la Glibc est dans
-le \IT{user space}.
+Par exemple, le noyai Linux est dans le \emph{kernel space}, mais la Glibc est dans
+le \emph{user space}.
 
 Cette séparation est cruciale pour la sécurité de l'\ac{OS}: il est très important
 de ne pas donner la possibilité à n'importe quel processus de casser quelque chose
@@ -29,9 +29,9 @@ La protection en anneau dans les processeurs x86 permet de séparer l'ensemble d
 quatre niveaux de protection (rings), mais tant dans Linux que Windows, seuls deux
 d'entre eux sont utilisés: ring0 (\q{kernel space}) et ring3 (\q{user space}).
 
-Les appels systèmes (syscall-s) sont un point oú deux zones sont connectées.
+Les appels systèmes (syscall-s) sont un point où deux espaces sont connectés.
 
-On peut dire que c'est la principale \ac{API} fournit aux applications.
+On peut dire que c'est la principale \ac{API} fournie aux applications.
 
 Comme dans \gls{Windows NT}, la table des appels système se trouve dans la \ac{SSDT}.
 

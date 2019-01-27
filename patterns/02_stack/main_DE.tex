@@ -1,22 +1,22 @@
-\section{\Stack}
+\mysection{\Stack}
 \label{sec:stack}
 \myindex{\Stack}
 
-Der Stack ist eine der Fundamentalen Datenstrukturen in der Informatik.
+Der Stack ist eine der fundamentalen Datenstrukturen in der Informatik.
 \footnote{\href{http://go.yurichev.com/17119}{wikipedia.org/wiki/Call\_Stack}}.
 \ac{AKA} \ac{LIFO}.
 
-Technisch betrachtet ist es ein Stapel Speicher innerhalb des Prozessspeichers der zusammen mit den \ESP (x86), \RSP (x64) oder dem \ac{SP} (ARM) Register als ein Zeiger in diesem Speicherblock fungiert.
+Technisch betrachtet ist es ein Stapelspeicher innerhalb des Prozessspeichers der zusammen mit den \ESP (x86), \RSP (x64) oder dem \ac{SP} (ARM) Register als ein Zeiger in diesem Speicherblock fungiert.
 
 \myindex{ARM!\Instructions!PUSH}
 \myindex{ARM!\Instructions!POP}
 \myindex{x86!\Instructions!PUSH}
 \myindex{x86!\Instructions!POP}
 
-Die häufigsten Stack-Zugriffsinstruktionen sind die \PUSH und \POP Instruktionen (in beidem x86 und ARM Thumb-Modus). \PUSH subtrahiert vom \ESP/\RSP/\ac{SP} 4 Byte im 32-Bit Modus (oder 8 im 64-Bit Modus) und schreibt dann den Inhalt des Zeigers an die Adresse auf die von \ESP/\RSP/\ac{SP} gezeigt wird.
+Die häufigsten Stack-Zugriffsinstruktionen sind die \PUSH- und \POP-Instruktionen (in beidem x86 und ARM Thumb-Modus). \PUSH subtrahiert vom \ESP/\RSP/\ac{SP} 4 Byte im 32-Bit Modus (oder 8 im 64-Bit Modus) und schreibt dann den Inhalt des Zeigers an die Adresse auf die von \ESP/\RSP/\ac{SP} gezeigt wird.
 
 \POP ist die umgekehrte Operation: Die Daten des Zeigers für die Speicherregion auf die von \ac{SP}
-gezeigt wird werden ausgelesen und die Inhalte in den Instruktionsoperanden geschreiben (oft ist das ein Register). Dann werden 4 (beziehungsweise 8 ) Byte zum \gls{stack pointer} addiert.
+gezeigt wird werden ausgelesen und die Inhalte in den Instruktionsoperanden geschreiben (oft ist das ein Register). Dann werden 4 (beziehungsweise 8) Byte zum \gls{stack pointer} addiert.
 
 Nach der Stackallokation, zeigt der \gls{stack pointer} auf den Boden des Stacks.
 \PUSH verringert den \gls{stack pointer} und \POP erhöht ihn.
@@ -90,7 +90,7 @@ im Notizbuch aufgrund des fehlenden Freien Platzes.
 Vielleicht ist der Grund warum man lokale Variablen und SEH Einträge auf dem Stack speichert, weil sie beim 
 verlassen der Funktion automatisch aufgeräumt werden. Man braucht dabei nur eine Instruktion um die Position
 des Stackpointers zu korrigieren (oftmals ist es die \ADD Instruktion). Funktions Argumente, könnte man sagen 
-werden auch am Ende der Funktion deallokiert. Im Kontrast dazu, alles was auf dem \IT{heap} gespeichert wird muss
+werden auch am Ende der Funktion deallokiert. Im Kontrast dazu, alles was auf dem \emph{heap} gespeichert wird muss
 explizit deallokiert werden. 
 
 % sections

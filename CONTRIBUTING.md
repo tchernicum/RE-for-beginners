@@ -11,7 +11,7 @@ Aside from LaTeX markup, there are only 2 macros you may be aware of.
 Translating
 -----------
 
-Read [here](https://github.com/dennis714/RE-for-beginners/blob/master/Translation.md).
+Read [here](https://github.com/DennisYurichev/RE-for-beginners/blob/master/Translation.md).
 
 Adding comments to source code
 ------------------------------
@@ -23,7 +23,7 @@ It's fine to write comments like:
 "I would love to read more about this and that right here at this place" and/or
 "It's also a great idea to mention this and that right here".
 
-[For example](https://github.com/dennis714/RE-for-beginners/blob/b0fe5ef304fa3303c502c4f94ee147683a2ffb50/patterns/main.tex#L105).
+[For example](https://github.com/DennisYurichev/RE-for-beginners/blob/b0fe5ef304fa3303c502c4f94ee147683a2ffb50/patterns/main.tex#L105).
 
 When time will allow me, I will try to extend these parts.
 

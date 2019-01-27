@@ -1,0 +1,50 @@
+﻿\subsection{hachage Zobrist / hachage de tabulation}
+\myindex{Chess}
+\myindex{Zobrist hashing}
+\myindex{Tabulation hashing}
+
+Si vous travaillez sur un moteur de jeu d'échec, vous traversez l'arbre de jeu de
+très nombreuses fois par seconde, et souvent, vous pouvez rencontrer une même position,
+qui a déjà été étudiée.
+
+Donc, vous devez utiliser un méthode pour stocker quelque part les positions déjà calculées.
+Mais les positions d'un jeu d'échec demandent beaucoup de mémoire, et une fonction
+de hachage peut être utilisée à la place.
+
+Voici un moyen de compresser une position d'échecs dans une valeur 64-bit, appelée
+le hachage de Zobrist:
+
+\begin{lstlisting}[style=customc]
+// nous avons un échiquier de 8*8 et 12 pièces (6 pour le côté blanc et 6 pour le noir)
+
+uint64_t table[12][8][8]; // remplir avec des valeurs aléatoires
+
+int position[8][8]; // pour chaque case de l'échiquier. 0 - no piece. 1..12 - piece
+
+uint64_t hash;
+
+for (int row=0; row<8; row++)
+	for (int col=0; col<8; col++)
+	{
+		int piece=position[row][col];
+
+		if (piece!=0)
+			hash=hash^table[piece][row][col];
+	};
+
+return hash;
+\end{lstlisting}
+
+Maintenant la partie la plus intéressante: si la position suivante (modifiée) diffère
+seulement d'une pièce (déplacée), vous ne devez pas recalculer le hachage pour la
+position complète, tout ce que vous devez faire est:
+
+\begin{lstlisting}[style=customc]
+hash=...; // (déjà calculé)
+
+// soustraire l'information à propos de l'ancienne pièce:
+hash=hash^table[old_piece][old_row][old_col];
+
+// ajouter l'information à propos de la nouvelle pièce:
+hash=hash^table[new_piece][new_row][new_col];
+\end{lstlisting}

@@ -6,17 +6,17 @@
 
 LLVM sans optimisation génère beaucoup trop de code, toutefois, ici nous pouvons
 voir comment la fonction travaille avec les variables locales.
-Il y a seulement deux variables locales dans notre fonction: \IT{eos} et \IT{str}.
-Dans ce listing, généré par \IDA, nous avons renommé manuellement \IT{var\_8} et
-\IT{var\_4} en \IT{eos} et \IT{str}.
+Il y a seulement deux variables locales dans notre fonction: \emph{eos} et \emph{str}.
+Dans ce listing, généré par \IDA, nous avons renommé manuellement \emph{var\_8} et
+\emph{var\_4} en \emph{eos} et \emph{str}.
 
-La première instruction sauve simplement les valeurs d'entrée dans \IT{str} et \IT{eos}.
+La première instruction sauve simplement les valeurs d'entrée dans \emph{str} et \emph{eos}.
 
-Le corps de la boucle démarre au label \IT{loc\_2CB8}.
+Le corps de la boucle démarre au label \emph{loc\_2CB8}.
 
 Les trois première instructions du corps de la boucle (\TT{LDR}, \ADD, \TT{STR})
-chargent la valeur de \IT{eos} dans \Reg{0}.
-Puis la valeur est \glslink{increment}{incrémentée} et sauvée dans \IT{eos}, qui
+chargent la valeur de \emph{eos} dans \Reg{0}.
+Puis la valeur est \glslink{increment}{incrémentée} et sauvée dans \emph{eos}, qui
 se trouve sur la pile.
 
 \myindex{ARM!\Instructions!LDRSB}
@@ -39,7 +39,7 @@ avec le x86.
 Il est à noter qu'il est impossible en ARM d'utiliser séparément la partie 8- ou
 16-bit d'un registre 32-bit complet, comme c'est le cas en x86.
 
-Apparement, c'est parce que le x86 à une énorme histoire de rétro-compatibilité
+Apparemment, c'est parce que le x86 à une énorme histoire de rétro-compatibilité
 avec ses ancêtres, jusqu'au 8086 16-bit et même 8080 8-bit, mais ARM a été développé
 à partir de zéro comme un processeur RISC 32-bit.
 
@@ -47,11 +47,11 @@ Par conséquent, pour manipuler des octets séparés en ARM, on doit tout de mê
 des registres 32-bit.
 
 Donc, \TT{LDRSB} charge des octets depuis la chaîne vers \Reg{0}, un par un.
-Les intructions suivantes, \CMP et \ac{BEQ} vérifient si l'octet chargé est 0.
+Les instructions suivantes, \CMP et \ac{BEQ} vérifient si l'octet chargé est 0.
 Si il n'est pas à 0, le contrôle passe au début du corps de la boucle.
 Et si c'est 0, la boucle est terminée.
 
-Á la fin de la fonction, la différence entre \IT{eos} et \IT{str} est calculée,
+À la fin de la fonction, la différence entre \emph{eos} et \emph{str} est calculée,
 1 en est soustrait, et la valeur résultante est renvoyée via \Reg{0}.
 
 N.B. Les registres n'ont pas été sauvés dans cette fonction.
@@ -73,11 +73,11 @@ Ainsi, le contrôle peut être rendu à la fonction appelante par un simple saut
 
 \lstinputlisting[caption=\OptimizingXcodeIV (\ThumbMode),style=customasmARM]{patterns/10_strings/1_strlen/ARM/xcode_thumb_O3.asm}
 
-Comme le conclue LLVM avec l'optimisation, \IT{eos} et \IT{str} n'ont pas besoin
+Comme le conclut LLVM avec l'optimisation, \emph{eos} et \emph{str} n'ont pas besoin
 d'espace dans la pile, et peuvent toujours être stockés dans les registres.
 
-Avant le début du corps de la boucle, \IT{str} est toujours dans \Reg{0}, et
-\IT{eos}---dans \Reg{1}.
+Avant le début du corps de la boucle, \emph{str} est toujours dans \Reg{0}, et
+\emph{eos}---dans \Reg{1}.
 
 \myindex{ARM!\Instructions!LDRB.W}
 L'instruction \TT{LDRB.W R2, [R1],\#1} charge, dans \Reg{2}, un octet de la mémoire
@@ -113,6 +113,6 @@ $str - eos - 1$ peut être calculée non pas à la fin de la fonction, mais dans
 corps de la boucle.
 Le suffixe \TT{-EQ}, comme nous devrions nous en souvenir, implique que l'instruction
 ne s'exécute que si les opérandes de la dernière instruction \CMP qui a été exécutée
-avant étaient égales.
+avant étaient égaux.
 Ainsi, si \Reg{0} contient 0, les deux instructions \TT{SUBEQ} sont exécutées et
 le résultat est laissé dans le registre \Reg{0}.

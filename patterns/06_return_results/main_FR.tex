@@ -1,4 +1,4 @@
-﻿\section{Plus sur le renvoi des résultats}
+﻿\mysection{Plus loin sur le renvoi des résultats}
 
 \myindex{x86!\Registers!EAX}
 
@@ -13,11 +13,12 @@ Si une fonction renvoie un nombre de type \Tfloat, le registre \ST{0} du FPU est
 En ARM, d'habitude, le résultat est renvoyé dans le registre \Reg{0}.
 
 \subsection{Tentative d'utilisation du résultat d'une fonction renvoyant \Tvoid}
+\label{UseResultOfVoidFunc}
 
 Donc, que se passe-t-il si le type de retour de la fonction \main a été déclaré
 du type \Tvoid et non pas \Tint?
-Le soi-disant code de démarrage (startup-code) appelle \main grosso-modo de la façon
-suivante:
+Ce que l'on nomme le code de démarrage (startup-code) appelle \main grosso-modo de
+la façon suivante:
 
 \begin{lstlisting}[style=customasmx86]
 push envp
@@ -35,7 +36,7 @@ exit(main(argc,argv,envp));
 \end{lstlisting}
 
 Si vous déclarez \main comme renvoyant \Tvoid, rien ne sera renvoyé explicitement
-(en utilisant la déclaration \IT{return}), alors quelque chose d'inconnu, qui aura
+(en utilisant la déclaration \emph{return}), alors quelque chose d'inconnu, qui aura
 été stocké dans la registre \EAX lors de l'exécution de \main sera l'unique argument
 de la fonction exit().
 Il y aura probablement une valeur aléatoire, laissée lors de l'exécution de la fonction,
@@ -61,7 +62,7 @@ mais c'est OK, puisque \puts renvoie le nombre de caractères écrit, tout comme
 \printf.
 Remarquez que le registre \EAX n'est pas mis à zéro avant la fin de \main.
 
-Cece implique que la valeur de \EAX à la fin de \main contient ce que \puts y avait mis.
+Ceci implique que la valeur de \EAX à la fin de \main contient ce que \puts y avait mis.
 
 \begin{lstlisting}[caption=GCC 4.8.1,style=customasmx86]
 .LC0:
@@ -79,7 +80,7 @@ main:
 
 \myindex{bash}
 
-Écrivons un script bash qui montre le code de retour:
+Écrivons un script bash affichant le code de retour:
 
 \begin{lstlisting}[caption=tst.sh]
 #!/bin/sh
@@ -98,8 +99,10 @@ Hello, world!
 14 est le nombre de caractères écrits.
 Le nombre de caractères affichés est \textit{passé} de \printf{}, à travers \TT{EAX}/\TT{RAX}, dans le \q{code de retour}.
 
+Un autre exemple dans le livre: \myref{ForgottenReturn}.
+
 \myindex{Hex-Rays}
-A propos, lorsque l'on décompile du C++ dans Hex-Rays, nous rencontrons souvent
+À propos, lorsque l'on décompile du C++ dans Hex-Rays, nous rencontrons souvent
 une fonction qui se termine par un destructeur d'une classe:
 
 \begin{lstlisting}[style=customasmx86]
@@ -161,7 +164,7 @@ si besoin, les informations doivent être renvoyées via un pointeur passé en a
 Donc, d'habitude, si une fonction doit renvoyer plusieurs valeurs, elle en renvoie
 une seule, et le reste---par des pointeurs.
 
-Maintenant, il est possible de renvoyer. disons, une structure entière, mais ce
+Maintenant, il est possible de renvoyer, disons, une structure entière, mais ce
 n'est pas encore très populaire.
 Si une fonction doit renvoyer une grosse structure, la fonction \glslink{caller}{appelante}
 doit l'allouer et passer un pointeur sur cette dernière via le premier argument,
@@ -180,7 +183,7 @@ Petit exemple:
 Ici, le nom de la macro interne pour passer le pointeur sur une structure est \GTT{\$T3853}.
 
 \myindex{\CLanguageElements!C99}
-Cet exemple peut être réécrit en utilisant les extensions C99 du langage:
+Cet exemple peut être récrit en utilisant les extensions C99 du langage:
 
 \lstinputlisting[style=customc]{patterns/06_return_results/6_1_C99.c}
 

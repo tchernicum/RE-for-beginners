@@ -1,4 +1,4 @@
-\section{Duff's device}
+\mysection{Duff's device}
 \myindex{Duff's device}
 \myindex{Unrolled loop}
 
@@ -10,15 +10,15 @@ We would use here a slightly simplified version of Tom Duff's original code.
 Let's say, we have to write a function that clears a region in memory.
 One can come with a simple loop, clearing byte by byte.
 It's obviously slow, since all modern computers have much wider memory bus.
-So the better way is to clear the memory region using 4 or 8 byte blocks.
-Since we are going to work with a 64-bit example here, we are going to clear the memory in 8 byte blocks.
+So the better way is to clear the memory region using 4 or 8 bytes blocks.
+Since we are going to work with a 64-bit example here, we are going to clear the memory in 8 bytes blocks.
 So far so good.
 But what about the tail? 
 Memory clearing routine can also be called for regions of size that's not a multiple of 8.
 So here is the algorithm:
 
 \begin{itemize}
-\item calculate the number of 8-byte blocks, clear them using 8-byte (64-bit) memory accesses;
+\item calculate the number of 8-bytes blocks, clear them using 8-bytes (64-bit) memory accesses;
 
 \item calculate the size of the tail, clear it using 1-byte memory accesses.
 \end{itemize}

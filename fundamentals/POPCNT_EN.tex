@@ -1,4 +1,4 @@
-\section{Population count}
+\mysection{Population count}
 \label{POPCNT}
 
 \INS{POPCNT} instruction is population count (\ac{AKA} Hamming weight).
@@ -8,7 +8,7 @@ As a side effect, \INS{POPCNT} instruction (or operation) can be used to determi
 Since, $2^n$ number always has just one single bit, \INS{POPCNT}'s result will always be just 1.
 
 \myindex{base64scanner}
-For example, I once wrote a base64 strings scanner for hunting something interesting in binary files\footnote{\url{https://github.com/dennis714/base64scanner}}.
+For example, I once wrote a base64 strings scanner for hunting something interesting in binary files\footnote{\url{https://github.com/DennisYurichev/base64scanner}}.
 And there is a lot of garbage and false positives, so I add an option to filter out data blocks which has size of $2^n$ bytes
 (i.e., 256 bytes, 512, 1024, etc.).
 The size of block is checked just like this:

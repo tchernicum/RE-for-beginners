@@ -1,0 +1,137 @@
+\mysection{AND et OR comme soustraction et addition}
+\label{AND_OR_as_SUB_ADD}
+
+\subsection{Chaînes de texte de la ROM du ZX Spectrum}
+\myindex{ZX Spectrum}
+
+Ceux qui ont étudié une fois le contenu de la \ac{ROM} du ZX Spectrum, ont probablement
+remarqués que le dernier caractère de chaque chaîne de texte est apparemment absent.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.3\textwidth]{fundamentals/zx_spectrum_ROM.png}
+\caption{Partie de la ROM du ZX Spectrum}
+\end{figure}
+
+Ils sont présents, en fait.
+
+Voici un extrait de la ROM du ZX Spectrum 128K désassemblée:
+
+\lstinputlisting{fundamentals/ZX_Spectrum_ROM.lst}
+( \url{http://www.matthew-wilson.net/spectrum/rom/128_ROM0.html} )
+
+Le dernier caractère a le bit le plus significatif mis, ce qui marque la fin de la
+chaîne.
+Vraisemblablement que ça a été fait pour économiser de l'espace.
+Les vieux ordinateurs 8-bit avaient une mémoire très restreinte.
+
+Les caractères de tous les messages sont toujours dans la table \ac{ASCII} 7-bit
+standard, donc il est garanti que le 7ème bit n'est jamais utilisé pour les caractères.
+
+Pour afficher une telle chaîne, nous devons tester le \ac{MSB} de chaque octet, et
+s'il est mis, nous devons l'effacer, puis afficher le caractère et arrêter.
+Voici un exemple en C:
+
+\begin{lstlisting}[style=customc]
+unsigned char hw[]=
+{
+	'H',
+	'e',
+	'l',
+	'l',
+	'o'|0x80
+};
+
+void print_string()
+{
+	for (int i=0; ;i++)
+	{
+		if (hw[i]&0x80) // check MSB
+		{
+			// clear MSB
+			// (en d'autres mots, les effacer tous, mais laisser les 7 bits inférieurs intacts)
+			printf ("%c", hw[i] & 0x7F);
+			// stop
+			break;
+		};
+		printf ("%c", hw[i]);
+	};
+};
+\end{lstlisting}
+
+Maintenant ce qui est intéressant, puisque le 7ème bit est le bit le plus significatif
+(dans un octet), c'est que nous pouvons le tester, le mettre et le supprimer en utilisant
+des opérations arithmétiques au lieu de logiques:
+
+Je peux récrire mon exemple en C:
+
+\begin{lstlisting}[style=customc]
+unsigned char hw[]=
+{
+	'H',
+	'e',
+	'l',
+	'l',
+	'o'+0x80
+};
+
+void print()
+{
+	for (int i=0; ;i++)
+	{
+		// hw[] doit avoir le type 'unsigned char'
+		if (hw[i] >= 0x80) // tester le MSB
+		{
+			printf ("%c", hw[i]-0x80); // clear MSB
+			// stop
+			break;
+		};
+		printf ("%c", hw[i]);
+	};
+};
+\end{lstlisting}
+
+Par défaut, \emph{char} est un type signé en \CCpp, donc pour le comparer avec une
+variable comme 0x80 (qui est négative ($-128$) si elle est traitée comme signée),
+nous devons traiter chaque caractère dans le texte du message comme non signé.
+
+Maintenant si le 7ème bit est mis, le nombre est toujours supérieur ou égal à
+0x80.
+Si le 7ème est à zéro, le nombre est toujours plus petit que 0x80.
+
+Et même plus que ça: si le 7ème bit est mis, il peut être effacé en soustrayant 0x80,
+rien d'autre.
+Si il n'est pas mis avant, toutefois, la soustraction va détruire d'autres bits.
+
+De même, si le 7ème est à zéro, il est possible de le mettre en ajoutant 0x80.
+Mais s'il est déjà mis, l'opération d'addition va détruire d'autres bits.
+
+En fait, ceci est valide pour n'importe quel bit.
+Si le 4ème bit est à zéro, vous pouvez le mettre juste en ajoutant 0x10: 0x100+0x10 = 0x110.
+Si le 4ème bit est mis, vous pouvez l'effacer en soustrayant 0x10: 0x1234-0x10 = 0x1224.
+
+Ça fonctionne, car il n'y a pas de retenue générée pendant l'addition/soustraction.
+Elle le serait, toutefois, si le bit est déjà à 1 avant l'addition, ou à 0 avant
+la soustraction.
+
+De même, addition/soustraction peuvent être remplacées en utilisant une opération
+OR/AND si deux conditions sont réunies:
+1) vous voulez ajouter/soustraire un nombre de la forme $2^n$;
+2) la valeur du bit d'indice $n$ dans la valeur source est 0/1.
+
+Par exemple, l'addition de 0x20 est la même chose que OR-er la valeur avec 0x20 sous
+la condition que ce bit est à zéro avant:
+0x1204|0x20 = 0x1204+0x20 = 0x1224.
+
+La soustraction de 0x20 est la même chose que AND-er la valeur avec ~0x20 (0x....FFDF),
+mais si ce bit est mis avant:
+0x1234\&(\~{}0x20) = 0x1234\&0xFFDF = 0x1234-0x20 = 0x1214.
+
+À nouveau, ceci fonctionne parce qu'il n'y a pas de retenue générée lorsque vous ajoutez
+le nombre $2^n$ et que ce bit n'est pas à 1 avant.
+
+Cette propriété de l'algèbre booléenne est importante, elle vaut la peine d'être comprise
+et gardée à l'esprit.
+
+Un autre exemple dans ce livre: \myref{toupper_bit}.
+

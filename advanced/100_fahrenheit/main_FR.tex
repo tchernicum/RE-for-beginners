@@ -1,4 +1,4 @@
-﻿\section{Conversion de température}
+﻿\mysection{Conversion de température}
 
 Un autre exemple très populaire dans
 les livres de programmation est un petit programme qui convertit une température de Fahrenheit vers Celsius ou inversement.
@@ -14,7 +14,7 @@ Nous pouvons aussi ajouter une gestion des erreurs simples:
 
 \myindex{\CStandardLibrary!exit()}
 La fonction \TT{exit()} termine 
-le programme instantanément, sans retourner à la fonction \gls{caller}.
+le programme instantanément, sans retourner à la fonction \glslink{caller}{appelante}.
 
 \subsection{Valeurs entières}
 
@@ -22,7 +22,7 @@ le programme instantanément, sans retourner à la fonction \gls{caller}.
 
 \subsubsection{MSVC 2012 x86 \Optimizing}
 
-\lstinputlisting[caption=MSVC 2012 x86 \Optimizing,style=customasmx86]{\CURPATH/i_MSVC_2012_Ox_x86_EN.asm}
+\lstinputlisting[caption=MSVC 2012 x86 \Optimizing,style=customasmx86]{\CURPATH/i_MSVC_2012_Ox_x86_FR.asm}
 
 Ce que l'on peut en dire:
 
@@ -38,13 +38,13 @@ dans le code, et/ou s'il y a un registre disponible qui peut être utilisé pour
 à l'endroit où 32 doit être soustrait de la valeur.
 $EAX=EAX+(-32)$ est équivalent à $EAX=EAX-32$ 
 et curieusement, le compilateur a décidé d'utiliser \TT{ADD} au lieu de \TT{SUB}.
-Peut-être que ca vaut la peine, difficile d'en être sûr.
+Peut-être que ça en vaut la peine, difficile d'en être sûr.
 
 \myindex{x86!\Instructions!LEA}
 \item L'instruction \LEA est utilisée quand 
 la valeur est multipliée par 5: \TT{lea ecx, DWORD PTR [eax+eax*4]}.
 Oui, $i+i*4$ équivaut à $i*5$ et \LEA 
-marche plus rapidement que \TT{IMUL}.\\
+s'exécute plus rapidement que \TT{IMUL}.\\
 D'ailleurs, la paire d'instructions \TT{SHL EAX, 2 / ADD EAX, EAX} peut aussi être utilisée ici---
 certains compilateurs le font.
 
@@ -56,14 +56,14 @@ est aussi utilisée ici.
 Le standard C99 nous dit \InSqBrackets{\CNineNineStd 5.1.2.2.3} que \main 
 va retourner 0 dans le cas où 
 la déclaration \TT{return} est manquante.
-Cette règle ne fonctionne uniquement que pour la fonction \main.
+Cette règle fonctionne uniquement pour la fonction \main.
 
 Cependant, MSVC ne supporte pas officiellement C99, mais peut-être qu'il le supporte partiellement ?
 \end{itemize}
 
 \subsubsection{MSVC 2012 x64 \Optimizing}
 
-Le code est quasiment le même, mais nous pouvons trouver les instructions \TT{INT 3} après chaque appel à \TT{exit()}.
+Le code est quasiment le même, mais nous trouvons une instruction \TT{INT 3} après chaque appel à \TT{exit()}.
 
 \begin{lstlisting}[style=customasmx86]
 	xor	ecx, ecx
@@ -74,25 +74,25 @@ Le code est quasiment le même, mais nous pouvons trouver les instructions \TT{I
 \TT{INT 3} est un point d'arrêt du debugger.
 
 C'est connu que \TT{exit()} est l'une des fonctions qui ne retourne jamais
-\footnote{une autre populaire est \TT{longjmp()}},
+\footnote{une autre connue est \TT{longjmp()}},
 donc si elle le fait, quelque chose de vraiment étrange est arrivé et il est temps de lancer le debugger.
 
-\subsection{Floating-point values}
+\subsection{Valeurs à virgule flottante}
 
 \lstinputlisting[style=customc]{\CURPATH/f.c}
 
 MSVC 2010 x86 utilise des instructions \ac{FPU}\dots
 
-\lstinputlisting[caption=MSVC 2010 x86 \Optimizing,style=customasmx86]{\CURPATH/f_MSVC_2010_x86_Ox_EN.asm}
+\lstinputlisting[caption=MSVC 2010 x86 \Optimizing,style=customasmx86]{\CURPATH/f_MSVC_2010_x86_Ox_FR.asm}
 
 \dots mais MSVC 2012 utilise à la place des instructions \ac{SIMD}:
 
-\lstinputlisting[caption=MSVC 2010 x86 \Optimizing,style=customasmx86]{\CURPATH/f_MSVC_2012_x86_Ox_EN.asm}
+\lstinputlisting[caption=MSVC 2010 x86 \Optimizing,style=customasmx86]{\CURPATH/f_MSVC_2012_x86_Ox_FR.asm}
 
 Bien sûr, les instructions \ac{SIMD} sont disponibles dans le mode x86,
-incluants celles qui fonctionnent avec les nombres à virgule flottante.
+incluant celles qui fonctionnent avec les nombres à virgule flottante.
 
-C'est quelque part plus simple de les utiliser pour les calculs, donc le nouveau compilateur Microsoft les utilise.
+C'est un peu plus simple de les utiliser pour les calculs, donc le nouveau compilateur de Microsoft les utilise.
 
 Nous pouvons aussi voir que la valeur $-273$
 est chargée dans le registre \XMM{0} trop tôt.

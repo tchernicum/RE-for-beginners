@@ -1,4 +1,4 @@
-\section{Pusta funkcja}
+\mysection{Pusta funkcja}
 \label{empty_func}
 
 Najprostszą istniejącą funkcją jest funkcja, która nic nie robi:
@@ -20,8 +20,8 @@ Tu jest tylko jedna instrukcja \RET, która zwraca zarządzanie do funkcji wywo�
 
 \lstinputlisting[caption=\OptimizingKeilVI (\ARMMode) ASM Output,style=customasmARM]{patterns/00_empty/1_Keil_ARM_O3.s}
 
-Adres powrotu (\ac{RA}) w ARM zapisuję się nie w steku lokalnym, a w rejestrze \ac{LR}.
-Dlatego instrukcja \INS{BX LR} przechodzi pod ten adres, czyli robi to samo - zwraca zarządzanie do funkcji wywołującej.
+Adres powrotu (\ac{RA}) w ARM zapisuję się nie na stosie lokalnym, a w rejestrze \ac{LR}.
+Dlatego instrukcja \INS{BX LR} wykonuje skok pod ten adres, czyli zwraca zarządzanie do funkcji wywołującej.
 
 \subsection{MIPS}
 
@@ -40,29 +40,30 @@ Output asemblera w GCC pokazuję rejestry według numerów:
 Pierwsza instrukcja jest instrukcją skoku (J lub JR),
 która zwraca zarządzanie \glslink{caller}{funkcję wywołującą}, skacząc pod adres w rejestrze \$31 (lub \$RA).
 
-Jest to analog \ac{LR} w ARM.
+Jest to analogiczne do \ac{LR} w ARM.
 
 Druga instrukcja to \ac{NOP}, która nic nie robi.
-Na razie możemy nie zwracać na nią uwagi.
+Na razie możemy ją zignorować.
 
 \subsubsection{Jeszcze małe co nieco o konwecji nazewnictwa w MIPS}
-Nazwy rejestrów i instrukcji w MIPS tradycyjnie są zapisywane małymi literami.
-Lecz my będziemy je zapisywać dużymi literami, dlatego że nazwy instrukcji i rejestrów innych 
+Nazwy rejestrów i instrukcji w MIPS tradycyjnie są zapisywane małymi literami,
+lecz my będziemy je zapisywać dużymi literami, dlatego że nazwy instrukcji i rejestrów innych 
 \ac{ISA} w tej książce są zapisywane dużymi.
 
-\subsection{Puste funkcje na praktyce}
+\subsection{Puste funkcje w praktyce}
 
 Mimo że puste funkcje są bezużyteczne, są one dość często spotykane w niskopoziomowym kodzie.
 
 Po pierwsze, popularne są funkcje wyprowadzające informację do logów, na przykład:
 
-\lstinputlisting[caption=Kod w \CCpp,style=customc]{patterns/00_empty/dbg_print.c}
+\lstinputlisting[caption=Kod w \CCpp,style=customc]{patterns/00_empty/dbg_print_EN.c}
 
 Po drugie, popularnym sposobem na ochronę oprogramowania jest kompilacja kilku wersji: pierwsza dla legalnych konsumentów, druga - demonstracyjna. Demonstracyjna wersja może nie zawierać jakiejś ważnej funkcjonalności, naprzykład:
-\lstinputlisting[caption=Kod w \CCpp,style=customc]{patterns/00_empty/demo.c}
+
+\lstinputlisting[caption=Kod w \CCpp,style=customc]{patterns/00_empty/demo_EN.c}
 
 Funkcja \TT{save\_file()} może być wywołana, kiedy użytkownik klika na menu \TT{File->Save}.
 Demo-wersja może zawierać wyłączony przycisk menu, ale nawet jeśli kraker go włączy, to będzie wywoływana pusta funkcja w której nie ma użytecznego kodu.
-IDA oznacza takie funkcje, na przykład, w ten sposób \TT{nullsub\_00}, \TT{nullsub\_01}, itd.
+IDA oznacza takie funkcje np. w ten sposób \TT{nullsub\_00}, \TT{nullsub\_01}, itd.
 
 

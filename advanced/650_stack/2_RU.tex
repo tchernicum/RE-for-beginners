@@ -16,7 +16,7 @@ char* amsg(int n, char* s)
 
 int main()
 {
-        amsg ("%s\n", interim (1234, "something wrong!"));
+        printf ("%s\n", amsg (1234, "something wrong!"));
 };
 \end{lstlisting}
 
@@ -27,7 +27,9 @@ int main()
 
 % FIXME! TikZ or whatever
 \begin{lstlisting}
-(низкие адреса)
+§(низкие адреса)§
+
+...
 
 §[amsg(): 100 байт]§
 §[RA]                               <- текущий SP§
@@ -35,7 +37,9 @@ int main()
 §[что-то еще]§
 §[локальные переменные main()]§
 
-(высокие адреса)
+...
+
+§(высокие адреса)§
 \end{lstlisting}
 
 Когда управление возвращается из amsg() в \main, пока всё хорошо.
@@ -76,7 +80,9 @@ MSVC предупредит: ``warning C4172: returning address of local variabl
 Посмотрим состояние стека в момент, когда amsg() возвращает управление в interim():
 
 \begin{lstlisting}
-(низкие адреса)
+§(низкие адреса)§
+
+...
 
 §[amsg(): 100 байт]§
 §[RA]                                      <- текущий SP§
@@ -85,13 +91,17 @@ MSVC предупредит: ``warning C4172: returning address of local variabl
 §[еще что-то]§
 §[локальные переменные main()]§
 
-(высокие адреса)
+...
+
+§(высокие адреса)§
 \end{lstlisting}
 
 Теперь состояние стека на момент, когда interim() возвращает управление в \main{}:
 
 \begin{lstlisting}
-(низкие адреса)
+§(низкие адреса)§
+
+...
 
 §[amsg(): 100 байт]§
 §[RA]§
@@ -100,7 +110,9 @@ MSVC предупредит: ``warning C4172: returning address of local variabl
 §[еще что-то]                              <- текущий SP§
 §[локальные переменные main()]§
 
-(высокие адреса)
+...
+
+§(высокие адреса)§
 \end{lstlisting}
 
 Так что когда \main вызывает \printf, он использует стек в месте, где выделен буфер в interim(),

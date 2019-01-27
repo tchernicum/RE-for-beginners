@@ -1,42 +1,39 @@
 \subsection{Krótkie wprowadzenie do CPU}
 
-\ac{CPU} jest urządzeniem wykonującym wszystkie programy.
+\ac{CPU} (mikroprocesor) jest urządzeniem, które wykonuje bezpośrednio kod maszynowy programu.
 
 \textbf{Terminologia:}
 
 \begin{description}
 \item[Instrukcja]: prymitywny rozkaz \ac{CPU}.
-Najprostsze przykłady: poruszanie się między rejestrami, zarządzanie pamięcią, prymitywne operacje arytmetyczne. 
+Najprostsze przykłady: przenoszenie (kopiowanie) danych między rejestrami, zarządzanie pamięcią, proste operacje arytmetyczne. 
 
 Z reguły, każdy \ac{CPU} ma swój zestaw instrukcji (\ac{ISA}).
 
-\item[Kod maszynowy]: kod, zrozumiały dla \ac{CPU}. 
-Każda instrukcja zwykle jest kodowana za pomocą kilku bajtów.
-\item[Język asemblera]: kod maszynowy plus niektóre rozszerzenia, stworzone po to, żeby ułatwić pracę programiście: makro, nazwy itd.
-\item[Rejestr CPU]: Każde \ac{CPU} ma swój fiksowany zestaw rejestrów ogólnego przeznaczenia (\ac{GPR}).
+\item[Kod maszynowy]: kod wykonywany bezpośrednio przez \ac{CPU}. 
+Każda instrukcja kodu maszynowego zwykle jest kodowana za pomocą kilku bajtów.
+\item[Język asemblera]: kod maszynowy plus niektóre rozszerzenia (np. makra), stworzone po to, żeby ułatwić pracę programiście.
+\item[Rejestr CPU]: Każdy \ac{CPU} ma swój zestaw rejestrów ogólnego przeznaczenia (\ac{GPR}).
 $\approx 8$ w x86, $\approx 16$ w x86-64, $\approx 16$ w ARM.
-Najłatwiej traktować rejestr jako zmieną tymczasową bez określonego typu. Można wyobrazić, że piszecie w wysokopoziomowym języku programowania i macie tylko 8 zmiennych o szerokości 32 (lub 64) bajty. Można zrobić naprawdę wiele rzeczy korzystając tylko z nich!
+Najłatwiej traktować rejestr jako zmienną bez określonego typu - wyobraź sobie, że pisząc w języku wyższego poziomu masz dostępne tylko 8 zmiennych o szerokości 32 (lub 64) bity. Te 8 zmiennych to właśnie rejestry. Wbrew pozorom można z nimi naprawdę wiele zrobić!
 \end{description}
 
-Skąd się wzięła różnica między kodem maszynowym a językiem programowania wysokiego poziomu? Odpowiedź polega na tym, że ludzie i \ac{CPU} różnią się między sobą - dla człowieka jest o wiele prostsze pisać w wysokopoziomowym języku programowania typu \CCpp, Java, Python, а dla \ac{CPU} łatwiej jest pracować na niższym poziomie abstrakcji.
-Możliwe, że można by było wymyśleć \ac{CPU} la CPU łatwiej jest pracować na niższym poziomie abstrakcji. Możliwe, że można by było wymyśleć CPU wykonujące kod wysokopoziomowego języka programowania, ale było by to o wiele bardziej skomplikowane urządzenie, niż to co mamy teraz. I na odwrót, dla człowieka pisać w asemblerze jest bardzo niewygodne, do tego ciężko się obejść bez drobnych błędów. program translujący kod z wysokopoziomowego języka programowania na asembler nazywa się kompilatorem.
-
+Dlaczego występują języki niższego i wyższego poziomu? Odpowiedź jest prosta: ludzie i procesory różnią się między sobą - dla człowieka jest o wiele łatwiej pisać w wysokopoziomowym języku programowania typu \CCpp, Java, Python, а dla procesora łatwiej jest pracować na niższym poziomie abstrakcji, ponieważ "rozumie" tylko kilkubajtowe instrukcje.
+Możnaby zbudować procesor, który wykonywałby kod wysokiego poziomu, ale jego budowa byłaby dużo bardziej skomplikowana niż  budowa procesorów jakie obecnie znamy. 
 \myindex{ARM!\ARMMode}%
 \myindex{ARM!\ThumbMode}%
 \myindex{ARM!\ThumbTwoMode}%
 
 \subsubsection{Kilka słów o różnicy między \ac{ISA}}
-x86 od zawsze był architekturą z opcode zmiennej długości, tak że kiedy nadszedł czas 64-bitowej architektury, rozszerzenia x64 niezbyt silno wpłyneły na  \ac{ISA}.
-ARM to \ac{RISC}-procesor wyprodukowany biorąc pod uwagę opcode o jednakowej długości, co było pewną korzyścią w przeszłości. Na początku wszystkie instrukcje ARM były kodowane w czterech bajtach.%
+x86 od zawsze  zawierał instrukcje o różnej długości, więc kiedy nadeszła era 64-bitowej architektury, rozszerzenia x64 nie wpłynęły znacząco na \ac{ISA}. 
+ARM to \ac{RISC}- procesor zaprojektowany tak, żeby zawierał wszystkie instrukcje tej samej długości, co miało sporo zalet w przeszłosci. Na samym początku wszystkie instrukcje ARM były kodowane na czterech bajtach (obecnie \q{tryb ARM})%
 \footnote{
-Instrukcje o rozmiarze stałym są wygodne dlatego że jest łątwo łatwo znaleźć adres następnej (lub poprzedniej) instrukcji. Będzie to dokładniej omawiane w sekcji o operatorze switch()~(\myref{sec:SwitchARMLot}).
+Instrukcje o stałym rozmiarze są wygodne, bo dzięki temu można łatwo znaleźć adres następnej (lub poprzedniej) instrukcji. Dokładniejsze wyjaśnienie znajduje się w sekcji o operatorze switch()~(\myref{sec:SwitchARMLot}).
 }.
-Jest to tym, na co obecnie się mówi \q{tryb ARM}.
-Później oni pomyśleli, że jest to niezbyt ekonomiczne. 
-Wprawdzie, najbardziej wykorzystywane przez procesor instrukcje\footnote{Są nimi MOV/PUSH/CALL/Jcc} mogą być zakodowane z wykorzystaniem mniejszej ilości informacji. Także oni dodali inną \ac{ISA} o nazwie "Thumb", gdzie każda instrukcja koduję się tylko za pomocą 2 bajtów. Obecnie jest to nazywane \q{tryb Thumb}.
-Ale nie wszystkie instrukcje ARM mogą być zakodowane w 2 bajtach, także zestaw instrukcji Thumb jest ograniczony. Kod, skompilowany dla trybu ARM i Thumb może współdziałać w jednym programie. Później producenci ARM stwierdzili, że Thumb można poszerzyć: tak się pojawił Thumb-2 (w ARMv7). Thumb-2 to wciąż dwubajtowe instrukcje, ale niektóre nowe instrukcje mają długość 4 bajty. Bardzo razpowszechnioną błęðną opinią jest to, że Thumb-2 - to mieszanina ARM i Thumb. Nie jest to prawdą. Tryb Thumb-2 był dopełniony, żeby lepiej wykorzystywać możliwości procesora i jest poważnym konkurentem trybu ARM. Aplikacje dla \idevices są głównie skompilowane dla zestawu instrukcji Thumb-2, ponieważ Xcode robi tak domyślnie. Później pojawił się 64-bitowy ARM. Jest to \ac{ISA} z znowu 4-bajtowymi opcode, bez dodatkowego trybu Thumb. Ale 64-bitowe wymagania wpłyneły na \ac{ISA}, tak że obecnie mamy 3 zestawy instrukcji ARM: tryb ARM, tryb Thumb/Thumb-2 i ARM64. Te zestawy instrukcji gdzieniegdzie się przecinają, ale można powiedzieć, że są to różne zestawy. Odpowiednio, w tej książce postaramy się zaprezentować fragmenty kodu we wszystkich trzech ARM  \ac{ISA}.
+Później się okazało, że jednak nie jest to zbyt wydajne, bo najczęściej używane przez procesor instrukcje\footnote{Są nimi MOV/PUSH/CALL/Jcc} mogą być zakodowane z wykorzystaniem mniejszej ilości informacji. Więc dodano inną \ac{ISA} o nazwie "Thumb", gdzie każda instrukcja jest kodowana za pomocą tylko 2 bajtów. Obecnie ta metoda jest nazywana \q{tryb Thumb}.
+Jednak nie wszystkie instrukcje ARM mogą być zakodowane na 2 bajtach, także zestaw instrukcji Thumb jest ograniczony. Kod skompilowany dla trybu ARM i Thumb może współdziałać w jednym programie. Później producenci ARM stwierdzili, że Thumb można poszerzyć: tak się pojawił Thumb-2 (w ARMv7). Thumb-2 to wciąż dwubajtowe instrukcje, ale niektóre nowe instrukcje mają długość 4 bajtów. Szeroko rozpowszechnioną i błędną opinią jest to, że Thumb-2 to mieszanina ARM i Thumb. Tryb Thumb-2 był dopełniony, żeby lepiej wykorzystywać możliwości procesora i jest poważnym konkurentem trybu ARM. Aplikacje dla \idevices są głównie skompilowane dla zestawu instrukcji Thumb-2, ponieważ Xcode jest domyślnie skonfigurowane dla tego zestawu instrukcji. Później pojawił się 64-bitowy ARM. Jest to \ac{ISA} znowu z 4-bajtowymi instrukcjami, bez dodatkowego trybu Thumb. Jednak nowe 64-bitowe wymagania wpłyneły na \ac{ISA} tak, że obecnie mamy 3 zestawy instrukcji ARM: tryb ARM, tryb Thumb/Thumb-2 i ARM64. Te zestawy instrukcji gdzieniegdzie są podobne, ale można powiedzieć, że są to różne zestawy. W tej książce postaramy się zaprezentować fragmenty kodu we wszystkich trzech ARM  \ac{ISA}.
 \myindex{PowerPC}%
 \myindex{MIPS}%
 \myindex{Alpha AXP}%
-Istnieje jeszcze wiele \ac{RISC} \ac{ISA} z opcode fiksowanej 32-bitowej długości~--- co najmniej MIPS, PowerPC и Alpha AXP.
+Istnieje jeszcze wiele \ac{RISC} \ac{ISA} z instrukcjami 32-bitowej długości~--- np. MIPS, PowerPC и Alpha AXP.
 

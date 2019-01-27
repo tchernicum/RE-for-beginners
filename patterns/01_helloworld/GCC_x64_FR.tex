@@ -7,6 +7,8 @@ Essayons GCC sur un Linux 64-bit:
 
 Une méthode de passage des arguments à la fonction dans des registres est aussi utilisée sur Linux, *BSD et
 \MacOSX est \SysVABI.
+Linux, *BSD et \MacOSX utilisent aussi une méthode pour passer les arguments d'une
+fonction par les registres: \SysVABI{}.
 
 Les 6 premiers arguments sont passés dans les registres \RDI, \RSI, \RDX, \RCX, \Reg{8}, \Reg{9} et les autres---par
 la pile.
@@ -15,7 +17,7 @@ Donc le pointeur sur la chaîne est passé dans \EDI (la partie 32-bit du regist
 Mais pourquoi ne pas utiliser la partie 64-bit, \RDI?
 
 Il est important de garder à l'esprit que toutes les instructions \MOV en mode 64-bit qui écrivent quelque chose
-dans la partie 32-bit inférieur du registre efface également les 32-bit supérieur (comme indiqué dans les manuels Intel:
+dans la partie 32-bit inférieuaer du registre efface également les 32-bit supérieurs (comme indiqué dans les manuels Intel:
 \myref{x86_manuals}).\\
 I.e., l'instruction \INS{MOV EAX, 011223344h} écrit correctement une valeur dans \RAX, puisque que les bits supérieurs
 sont mis à zéro.
@@ -34,6 +36,6 @@ En outre, cela permet d'être sûr que le segment de données contenant la chaî
 
 \label{SysVABI_input_EAX}
 Nous voyons aussi que le registre \EAX est mis à zéro avant l'appel à la fonction \printf.
-Ceci, car conformément à l' \ac{ABI} standard mentionnée plus haut,
+Ceci, car conformément à l'\ac{ABI} standard mentionnée plus haut,
 le nombre de registres vectoriel utilisés est passé dans \EAX sur les systèmes *NIX en x86-64.
 

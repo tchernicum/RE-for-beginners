@@ -1,0 +1,87 @@
+\mysection{AND}
+
+\subsection{Tester si une valeur est alignée sur une limite de $2^n$}
+
+Si vous devez vérifier si votre valeur est divisible par un nombre $2^n$ (comme 1024,
+4096, etc.) sans reste, vous pouvez utiliser l'opérateur \TT{\%} en \CCpp, mais il
+y a un moyen plus simple.
+4096 est 0x1000, donc il a toujours les $4*3=12$ bits inférieurs à zéro.
+
+Ce dont vous avez besoin est simplement:
+
+\lstinputlisting[style=customc]{fundamentals/AND_4096_FR.c}
+
+Autrement dit, ce code vérifie si il y a un bit mis parmi les 12 bits inférieurs.
+Un effet de bord, les 12 bits inférieurs sont toujours le reste de la division d'une
+valeur par 4096 (car une division par $2^n$ est simplement un décalage à droite, et
+les bits décalés (et perdus) sont les bits du reste).
+
+Même principe si vous voulez tester si un nombre est pair ou impair:
+
+\begin{lstlisting}[style=customc]
+if (value&1)
+	// odd
+else
+	// even
+\end{lstlisting}
+
+Ceci est la même chose que de diviser par 2 et de prendre le reste de 1-bit.
+
+\subsection{Encodage cyrillique KOI-8R}
+
+Il fût un temps où la table \ac{ASCII} 8-bit n'était pas supportée par certains services
+Internet, incluant l'email.
+Certains supportaient, d'autres---non.
+
+Il fût aussi un temps, où les systèmes d'écriture non-latin utilisaient la seconde
+moitié de la table ASCII pour stocker les caractères non-latin.
+Il y avait plusieurs encodages cyrillique populaires, mais KOI-8R (conçu par Andrey
+``ache'' Chernov) est plutôt unique en comparaison avec les autres.
+
+% TODO invert arrow 
+% TODO text latex form instead of png!
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{fundamentals/koi8r.png}
+\caption{KOI8-R table}
+\end{figure}
+
+On peut remarquer que les caractères cyrilliques sont alloués presque dans la même
+séquence que les caractères Latin.
+Ceci conduit à une propriété importante: si tout les 8ème bits d'un texte encodé en
+Cyrillique sont mis à zéro, le texte est transformé en un texte translittéré avec
+des caractères latin à la place de cyrillique.
+Par exemple, une phrase en Russe:
+
+\begin{framed}
+\begin{quotation}
+Мой дядя самых честных правил, Когда не в шутку занемог, Он уважать себя заставил, И лучше выдумать не мог.
+\end{quotation}
+\end{framed}
+
+\dots s'il est encodé en KOI-8R et que le 8ème bit est supprimé, il est transformé en:
+
+\begin{framed}
+\begin{quotation}
+mOJ DQDQ SAMYH \^{}ESTNYH PRAWIL, kOGDA NE W [UTKU ZANEMOG, oN UWAVATX SEBQ ZASTAWIL, i LU\^{}[E WYDUMATX NE MOG.
+\end{quotation}
+\end{framed}
+
+\dots ceci n'est peut-être très esthétiquement attrayant, mais ce texte est toujours
+lisible pour les gens de langue maternelle russe.
+
+De ce fait, un texte cyrillique encodé en KOI-8R, passé à travers un vieux service 7-bit
+survivra à la translittération, et sera toujours un texte lisible.
+
+Supprimer le 8ème bit transpose automatiquement un caractère de la seconde moitié
+de n'importe quelle table \ac{ASCII} 8-bit dans la première, à la même place (regardez
+la flèche rouge à droite de la table).
+Si le caractère était déjà dans la première moitié (i.e., il était déjà dans la table
+\ac{ASCII} 7-bit standard), il n'est pas transposé.
+
+Peut-être qu'un texte translittéré est toujours récupérable, si vous ajoutez le
+8ème bit aux caractères qui ont l'air d'avoir été translittérés.
+
+L'inconvénient est évident: les caractères cyrilliques alloués dans la table KOI-8R
+ne sont pas dans le même ordre dans l'alphabet Russe/Bulgare/Ukrainien/etc., et ce
+n'est pas utilisable pour le tri, par exemple.

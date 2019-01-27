@@ -1,12 +1,12 @@
-\section[Linear congruential generator]{Linear congruential generator as pseudorandom number generator}
+\mysection[Linear congruential generator]{Linear congruential generator as pseudorandom number generator}
 \myindex{\CStandardLibrary!rand()}
 \label{LCG_simple}
 
 Perhaps, the linear congruential generator is the simplest possible way to generate random numbers.
 
 It's not in favour nowadays\footnote{Mersenne twister is better}, but it's so simple 
-(just one multiplication, one addition and one AND operation), 
-we can use it as an example.
+(just one multiplication, one addition and AND operation), 
+that we can use it as an example.
 
 \lstinputlisting[style=customc]{patterns/145_LCG/rand_EN.c}
 
@@ -15,7 +15,7 @@ to generate pseudorandom numbers.
 
 We see that two constants are used in the algorithm.
 They are taken from
-[William H. Press and Saul A. Teukolsky and William T. Vetterling and Brian P. Flannery, \IT{Numerical Recipes}, (2007)].
+[William H. Press and Saul A. Teukolsky and William T. Vetterling and Brian P. Flannery, \emph{Numerical Recipes}, (2007)].
 
 Let's define them using a \TT{\#define} \CCpp statement. It's a macro.
 

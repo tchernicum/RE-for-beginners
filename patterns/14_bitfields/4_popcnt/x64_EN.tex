@@ -20,7 +20,7 @@ This code is terser, but has a quirk.
 In all examples that we see so far, we were incrementing the \q{rt} value after comparing a specific bit,
 but the code here increments \q{rt} before (line 6), writing the new value into register \EDX .
 Thus, if the last bit is 1, the \CMOVNE\footnote{Conditional MOVe if Not Equal} instruction
-(which is a synonym for \CMOVNZ\footnote{Conditional MOVe if Not Zero}) \IT{commits} 
+(which is a synonym for \CMOVNZ\footnote{Conditional MOVe if Not Zero}) \emph{commits} 
 the new value of \q{rt}
 by moving \EDX (\q{proposed rt value}) into \EAX (\q{current rt} to be returned at the end).
 
@@ -41,7 +41,7 @@ which is recommended by AMD to be placed at the end of function, if \RET goes ri
 
 \myparagraph{\Optimizing MSVC 2010}
 
-\lstinputlisting[caption=MSVC 2010,style=customasmx86]{patterns/14_bitfields/4_popcnt/MSVC_2010_x64_Ox_EN.asm}
+\lstinputlisting[caption=\Optimizing MSVC 2010,style=customasmx86]{patterns/14_bitfields/4_popcnt/MSVC_2010_x64_Ox_EN.asm}
 
 \myindex{x86!\Instructions!ROL}
 Here the \ROL instruction is used instead of 
@@ -83,7 +83,7 @@ At the end we see the \INS{FATRET} instruction, which was explained here: \myref
 
 \myparagraph{\Optimizing MSVC 2012}
 
-\lstinputlisting[caption=MSVC 2012,style=customasmx86]{patterns/14_bitfields/4_popcnt/MSVC_2012_x64_Ox_EN.asm}
+\lstinputlisting[caption=\Optimizing MSVC 2012,style=customasmx86]{patterns/14_bitfields/4_popcnt/MSVC_2012_x64_Ox_EN.asm}
 
 \myindex{\CompilerAnomaly}
 \label{MSVC2012_anomaly}

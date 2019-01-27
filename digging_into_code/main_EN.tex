@@ -26,7 +26,7 @@ The \IDA disassembler allow us to search among text strings, byte sequences and 
 It is even possible to export the code to .lst or .asm text files and then use \TT{grep}, \TT{awk}, etc.
 
 When you try to understand what some code is doing, this easily could be some open-source library like libpng.
-So when you see some constants or text strings which look familiar, it is always worth to \IT{google} them.
+So when you see some constants or text strings which look familiar, it is always worth to \emph{google} them.
 And if you find the opensource project where they are used, 
 then it's enough just to compare the functions.
 It may solve some part of the problem.
@@ -41,7 +41,7 @@ instead of self-made one.
 For example, the author of these lines once tried to understand how the compression/decompression of network packets works in SAP 6.0. 
 It is a huge software, but a detailed .\gls{PDB} with debugging information is present, 
 and that is convenient.
-He finally came to the idea that one of the functions, that was called \IT{CsDecomprLZC}, was doing the decompression of network packets.
+He finally came to the idea that one of the functions, that was called \emph{CsDecomprLZC}, was doing the decompression of network packets.
 Immediately he tried to google its name and he quickly found the function was used in MaxDB
 (it is an open-source SAP project) \footnote{More about it in relevant section~(\myref{sec:SAPGUI})}.
 
@@ -53,7 +53,7 @@ Astoundingly, MaxDB and SAP 6.0 software shared likewise code for the compressio
 
 % binary files might be also here
 
-\section{Communication with outer world (function level)}
+\mysection{Communication with outer world (function level)}
 It's often advisable to track function arguments and return values in debugger or \ac{DBI}.
 For example, the author once tried to understand meaning of some obscure function, which happens to be incorrectly
 implemented bubble sort\footnote{\url{https://yurichev.com/blog/weird_sort/}}.
@@ -77,7 +77,7 @@ and output and quickly find divisor.
 \input{digging_into_code/snapshots_comparing_EN}
 \input{digging_into_code/ISA_detect_EN}
 
-\section{Other things}
+\mysection{Other things}
 
 \subsection{General idea}
 

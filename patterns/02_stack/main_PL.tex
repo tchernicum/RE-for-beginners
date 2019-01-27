@@ -1,12 +1,12 @@
-\section{\Stack}
+\mysection{\Stack}
 \label{sec:stack}
 \myindex{\Stack}
 
-Stos w informatyce~--- to jedna z najbardziej fundamentalnym struktur danych
+Stos w informatyce jest jedną z najbardziej fundamentalnych struktur danych
 \footnote{\href{http://go.yurichev.com/17119}{wikipedia.org/wiki/Call\_stack}}.
 \ac{AKA} \ac{LIFO}.
 
-Technicznie jest to tylko blok pamięci w pamięci procesora + rejestr \ESP w x86 lub \RSP w x64, lub \ac{SP} w ARM, który wskazuje gdzieś w granicach tego bloku.
+Technicznie rzecz biorąc, jest to tylko blok pamięci w pamięci procesora + rejestr \ESP w x86 lub \RSP w x64, lub \ac{SP} w ARM, który wskazuje obszar gdzieś w granicach tego bloku.
 
 \myindex{ARM!\Instructions!PUSH}
 \myindex{ARM!\Instructions!POP}
@@ -16,11 +16,11 @@ Najczęsciej wykorzystywanymi instrukcjami do operowania na stosie są \PUSH i \
 \PUSH zmniejsza \ESP/\RSP/\ac{SP} o 4 w trybie 32-bitowym (lub o 8 w 64-bitowym),
 następnie zapisuje pod adres, na który wskazuje \ESP/\RSP/\ac{SP}, zawartość swojego operandu.
 
-\POP jest operacją wsteczną~--- najpierw wyjmuje ze \glslink{stack pointer}{wskaźnika stosu} wartość i umieszcza ją do operandu 
-(który często jest rejestrem) i następnie zwiększa wskaźnik o 4 (lub 8).
+\POP jest odwrotną operacją- najpierw zdejmuje ze \glslink{stack pointer}{wskaźnika stosu} wartość i umieszcza ją do operandu 
+(który często jest rejestrem), a następnie zwiększa wskaźnik o 4 (lub 8).
 
-Na samym początku \glslink{stack pointer}{rejestr-wskaźnik} wskazuje na koniec stosu.
-Koniec stosu znajduje się na początku bloku pamięci, przeznaczonego na stos. Jest to dziwne, ale tak już jest.
+Przed alokacją pamięci na stosie \glslink{stack pointer}{rejestr-wskaźnik} wskazuje na koniec stosu.
+Koniec stosu znajduje się na początku zaalokowanego bloku pamięci, przeznaczonego na stos. Może zabrzmieć to dziwnie, ale tak to działa.
 \PUSH zmniejsza \glslink{stack pointer}{rejestr-wskaźnik}, а \POP~--- zwiększa.
 
 W procesorze ARM jest wsparcie dla stosów zarówno rosnących w dół, jak i rosnącyh w górę.
@@ -34,8 +34,8 @@ W procesorze ARM jest wsparcie dla stosów zarówno rosnących w dół, jak i ro
 \myindex{ARM!\Instructions!STMEA}
 \myindex{ARM!\Instructions!LDMEA}
 
-Na przykład, instrukcje \ac{STMFD}/\ac{LDMFD}, \ac{STMED}/\ac{LDMED} są przeznaczone dla descending-stosu (rośnie do tyłu, zaczynając od adresów high, do adresów low).\\
-Instrukcje \ac{STMFA}/\ac{LDMFA}, \ac{STMEA}/\ac{LDMEA}, natomiast, są przeznaczone dla ascending-stosu (rośnie do przodu, zaczynając od low-adresów, kończąc na high-adresach).
+Na przykład, instrukcje \ac{STMFD}/\ac{LDMFD}, \ac{STMED}/\ac{LDMED} są przeznaczone dla stosu malejącego (rośnie w dół, zaczynając od adresów wysokich, do adresów niskich).\\
+Natomiast instrukcje \ac{STMFA}/\ac{LDMFA}, \ac{STMEA}/\ac{LDMEA} są przeznaczone dla stosu rosnącego (rośnie w górę, zaczynając od niskich adresów, kończąc na adresach wysokich).
 
 % It might be worth mentioning that STMED and STMEA write first,
 % and then move the pointer,
@@ -47,11 +47,11 @@ Instrukcje \ac{STMFA}/\ac{LDMFA}, \ac{STMEA}/\ac{LDMEA}, natomiast, są przeznac
 \subsection{Dlaczego stos rośnie wstecznie?}
 \label{stack_grow_backwards}
 
-Intuicyjnie moglibyśmy pomyśleć, że, jak i każda inna struktura danych, stos mogłby rosnąć do przodu, tzn w kierunku zwiększenia adresów.
+Intuicyjnie moglibyśmy pomyśleć, że, jak i każda inna struktura danych, stos mogłby rosnąć w górę, tzn. w kierunku zwiększenia adresów.
 
-Przyczyna, dlaczego stos rośnie do tyłu, jest najwidoczniej ukryta w historii.
+Powód, dlaczego stos rośnie w dół, jest najprawdobodobniej historyczny.
 Kiedy komputery były duże i zajmowały cały pokój, można było bardzo łatwo rozdzielić segment na dwa obszary: dla \glslink{heap}{kopca} i dla stosu.
-Z góry nie było wiadomo, jak dużym może być \glslink{heap}{kopiec} lub stos, dlatego takie rozwiązanie było najbardziej logicznym.
+Z góry nie było wiadomo, jak duża może być \glslink{heap}{sterta} lub stos, dlatego takie rozwiązanie było najbardziej logiczne.
 
 \input{patterns/02_stack/stack_and_heap}
 
@@ -64,7 +64,7 @@ The user-core part of an image is divided into three logical segments. The progr
 \end{framed}
 
 To trochę przypomina podejście studenta,
-który piszę dwie osobne lektury w jednym zeszycie:
+który pisze dwie osobne lektury w jednym zeszycie:
 pierwsza lektura jest pisana jak zwykle od początku zeszytu, a druga jest pisana od końca zeszytu.
 Lektury mogą się "spotkać" gdzieś na środku zeszytu, jeśli zabraknie miejsca.
 
@@ -84,16 +84,13 @@ Lektury mogą się "spotkać" gdzieś na środku zeszytu, jeśli zabraknie miejs
 \EN{\input{patterns/02_stack/03_local_vars_EN}}
 \RU{\input{patterns/02_stack/03_local_vars_RU}}
 \PTBR{\input{patterns/02_stack/03_local_vars_PTBR}}
+\PL{\input{patterns/02_stack/03_local_vars_PL}}
 \input{patterns/02_stack/04_alloca/main}
 \input{patterns/02_stack/05_SEH}
 \input{patterns/02_stack/06_BO_protection}
 
 \subsubsection{Automatyczne zwalnianie danych na stosie}
-
-Możliwe, że na stosie są przechowywane zmienne lokalne i SEH-wpisy dlatego, że po wyjściu z funkcji, wszystkie te dane są zwalniane automatycznie,
-korzystając tylko z jednej instrukcji przesunięcia wskaźnika stosu (często jest to \ADD).
-Argumenty funkcji, można powiedzieć, też są zwalniane automatycznie na końcu funkcji.
-Natomiast wszystko co jest przechowywane w kopcu(\IT{heap}) trzeba zwalniać jawnie.
+Możliwym powodem przechowywania zmiennych lokalnych i rekordów SEH na stosie jest to, że kiedy funkcja zakończy działanie są one automatycznie zwalniane ze stosu używając tylko jednej instrukcji w celu przywrócenia poprzedniego stanu stosu (często jest to instrukcja ADD). Argumenty funkcji także są automatycznie zwalniane z pamięci pod koniec funkcji. Natomiast wszystko co jest przechowywane na stercie(\emph{heap}) trzeba zwalniać jawnie.
 
 % sections
 \EN{\input{patterns/02_stack/07_layout_EN}}

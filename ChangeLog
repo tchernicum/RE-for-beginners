@@ -1,3 +1,11 @@
+   Jan-2019: There was a time when \IT macro was used for italic text and \ITA for Italian text.
+             To be consistent, I'm using \emph for italic text now and \IT for Italian text.
+             True for filename suffixes as well.
+
+             Also, \JA macro is now used for Japanese, instead of \JPN.
+
+   Jan-2019: syntax highlighting (comments only so far)
+02-Jul-2018: DBI examples: minesweeper and WinRAR
 15-Sep-2016: More fundamentals and examples
 14-Sep-2016: More of my blog posts are copypasted into the book
 06-Sep-2016: Blog posts about FAT12 and fortune file has been copypasted into the book
@@ -26,7 +34,7 @@
 30-Jul-2014: Color Lines game practical joke; Oracle .MSB files example
 29-Jul-2014: simple cheating in Millenium DOS game
 21-Jul-2014: Oracle .SYM files example
-11-Jun-2014: The book has now 700 pages.
+11-Jun-2014: The book has now ~700 pages.
 09-Jun-2014: Fibonacci example
 28-Apr-2014: A5 version for e-book readers
 06-Apr-2014: new exercise: data compressor with a bug
@@ -42,7 +50,7 @@
 10-Feb-2014: win16 code examples, IDA cheatsheet.
 05-Feb-2014: Obfuscation
 03-Feb-2014: Incorrectly disassembled code examples
-02-Feb-2014: Changed title to shorter "Reverse Engineering for Beginners".
+02-Feb-2014: Title was changed to a shorter "Reverse Engineering for Beginners".
 31-Jan-2014: 64-bit in 32-bit environment
 28-Jan-2014: SEH3/4
 25-Jan-2014: CRT (win32)
@@ -60,10 +68,16 @@
 05-Nov-2013: (exercises) vulnerable toy webserver.
 01-Nov-2013: a lot of exercises added.
 29-Oct-2013: Not a quick anymore, but still for beginners.
-             Title changed to "An introduction to reverse engineering for beginners".
+             Title was changed to "An introduction to reverse engineering for beginners".
 20-Oct-2013: LD_PRELOAD
 19-Oct-2013: PE file format.
 13-Aug-2013: pointers, C++ references.
 10-Aug-2013: ARM CPU, C99 restrict keyword.
 03-Jul-2013: C++ objects, Oracle RDBMS examples.
-15-Mar-2013: Initial version.
+15-Mar-2013: Initial published version, TeX form.
+12-Mar-2013: First git commit, TeX form.
+
+...
+
+2010: The very first parts has been published at http://wiki.conus.info in Russian language.
+

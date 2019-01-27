@@ -1,4 +1,4 @@
-\section{Fonction prologue et épilogue}
+\mysection{Fonction prologue et épilogue}
 \label{sec:prologepilog}
 \myindex{Function epilogue}
 \myindex{Function prologue}
@@ -19,7 +19,7 @@ La valeur du registre \EBP reste la même durant la période où la fonction s'e
 Le registre \ESP peut aussi être utilisé pour accéder aux variables locales et aux arguments de la fonction, cependant cette approche n'est
  pas pratique car sa valeur est susceptible de changer au cours de l'exécution de cette fonction.
 
-L'épilogue de fonction libère la mémoire allouée dans la pile (mov esp, ebp), restaure l'ancienne valeur de \EBP précédement sauvegardée dans la pile (pop ebp) puis rend l'exécution au \gls{caller} (ret 0).
+L'épilogue de fonction libère la mémoire allouée dans la pile (mov esp, ebp), restaure l'ancienne valeur de \EBP précédemment sauvegardée dans la pile (pop ebp) puis rend l'exécution à l'\glslink{caller}{appelant} (ret 0).
 
 \begin{lstlisting}[style=customasmx86]
     mov    esp, ebp
@@ -33,6 +33,6 @@ Les prologues et épilogues de fonction sont généralement détectés par les d
 \subsection{\Recursion}
 
 \myindex{\Recursion}
-Les prologues et épilogues de fonction peuvent affecter négativement les performances de récursion.
+Les prologues et épilogues de fonction peuvent affecter négativement les performances de la récursion.
 
 Plus d'information sur la récursivité dans ce livre: \myref{Recursion_and_tail_call}.

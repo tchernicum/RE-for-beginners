@@ -17,16 +17,16 @@ Si nous utilisons switch() avec quelques cas, il est impossible de savoir si il 
 avait un vrai switch() dans le code source, ou un ensemble de directives if().
 \myindex{\SyntacticSugar}
 
-Ceci implique que switch() est comme un sucre syntaxique pour un grand nombre de if()
+Ceci indique que switch() est comme un sucre syntaxique pour un grand nombre de if()
 imbriqués.
 
 Il n'y a rien de particulièrement nouveau pour nous dans le code généré, à l'exception
 que le compilateur déplace la variable d'entrée $a$ dans une variable locale temporaire
 \TT{tv64} \footnote{Les variables locales sur la pile sont préfixées avec \TT{tv}---c'est
-ainsi que MSVC appelle les variables internes dont il a besoin}.
+ainsi que MSVC appelle les variables internes dont il a besoin.}.
 
 Si nous compilons ceci avec GCC 4.4.1, nous obtenons presque le même résultat,
-même avec le plus haut niveau d'optimisation (\Othree option).
+même avec le niveau d'optimisation le plus élevé (\Othree option).
 
 \myparagraph{MSVC \Optimizing}
 
@@ -37,7 +37,7 @@ même avec le plus haut niveau d'optimisation (\Othree option).
 % messages (string constants) in something else, like \strconst
 % to separate them all. Now they all use \TT, which is not best
 % \INS{} for all instructions including operands? --DY
-Maintenant compilons avec l'optimisation dans MSVC (\Ox): \TT{cl 1.c /Fa1.asm /Ox}
+Maintenant compilons dans MSVC avec l'optimisation (\Ox): \TT{cl 1.c /Fa1.asm /Ox}
 
 \label{JMP_instead_of_RET}
 \lstinputlisting[caption=MSVC,style=customasmx86]{patterns/08_switch/1_few/few_msvc_Ox.asm}
@@ -48,17 +48,17 @@ Ici, nous voyons quelques hacks moches.
 \myindex{x86!\Instructions!JE}
 \myindex{x86!\Instructions!SUB}
 
-Premièrement: la valeurs de $a$ est mise dans \EAX et 0 en est soustrait. Ca semble
+Premièrement: la valeurs de $a$ est mise dans \EAX et 0 en est soustrait. Ça semble
 absurde, mais cela est fait pour vérifier si la valeur dans \EAX est 0. Si oui, le
 flag \ZF est mis (e.g. soustraire de 0 est 0) et le premier saut conditionnel \JE
-(\IT{Jump if Equal} saut si égal ou synonyme \JZ~---\IT{Jump if Zero} saut si zéro)
-va être effectué et le déroulement du programme passera au label \TT{\$LN4@f}, oú
+(\emph{Jump if Equal} saut si égal ou synonyme \JZ~---\emph{Jump if Zero} saut si zéro)
+va être effectué et le déroulement du programme passera au label \TT{\$LN4@f}, où
 le message \TT{'zero'} est affiché.
 Si le premier saut n'est pas effectué, 1 est soustrait de la valeur d'entrée et si
 à une étape le résultat est 0, le saut correspondant sera effectué.
 
 Et si aucun saut n'est exécuté, l'exécution passera au \printf avec comme argument
-la chaîne \TT{'something unknown'}.
+la chaîne\\ \TT{'something unknown'}.
 
 \label{jump_to_last_printf}
 \myindex{\Stack}
@@ -90,10 +90,10 @@ l'instruction \RET qui POPs \ac{RA} de la pile et l'exécution est renvoyée non
 fonction \ttf.
 
 \myindex{\CStandardLibrary!longjmp()}
-\newcommand{\URLSJ}{\href{http://go.yurichev.com/17121}{wikipedia}}
+\newcommand{\URLSJ}{\href{http://go.yurichev.com/17121}{Wikipédia}}
 
 % TODO \myref{}
-Tout ceci est possible car \printf est appeléi, dans tous les cas, tout à la fin
+Tout ceci est possible car \printf est appelée, dans tous les cas, tout à la fin
 de la fonction \ttf.
 Dans un certain sens, c'est similaire à la fonction \TT{longjmp()}\footnote{\URLSJ}.
 Et bien sûr, c'est fait dans un but de vitesse d'exécution.

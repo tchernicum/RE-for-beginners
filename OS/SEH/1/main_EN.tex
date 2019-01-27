@@ -8,11 +8,11 @@ Here we are going to take a look at \ac{SEH} in its isolated (from C++ and MSVC 
 \myindex{Windows!TIB}
 \myindex{Windows!Win32!RaiseException()}
 
-Each running process has a chain of \ac{SEH} handlers, \ac{TIB} has the address of the last handler.
+Each running process has a chain of \ac{SEH} handlers, each \ac{TIB} has the address of the most recently defined handler.
 
 When an exception occurs (division by zero, incorrect address access, user exception triggered by
 calling the \TT{RaiseException()} function), the \ac{OS} finds the last handler in the \ac{TIB} and calls it,
-passing all information about the \ac{CPU} state (register values, etc.) at the moment of the exception.
+passing exception kind and all information about the \ac{CPU} state (register values, etc.) at the moment of the exception.
 
 The exception handler considering the exception, does it see something familiar?
 If so, it handles the exception.
@@ -73,13 +73,13 @@ We save it in the stack and store the address of our handler there.
 The structure is named \TT{\_EXCEPTION\_REGISTRATION}, it is a simple singly-linked list and its elements are stored right in the stack.
 
 \begin{lstlisting}[caption=MSVC/VC/crt/src/exsup.inc,style=customasmx86]
-\_EXCEPTION\_REGISTRATION struc
+_EXCEPTION_REGISTRATION struc
      prev    dd      ?
      handler dd      ?
-\_EXCEPTION\_REGISTRATION ends
+_EXCEPTION_REGISTRATION ends
 \end{lstlisting}
 
-So each \q{handler} field points to a handler and an each \q{prev} field points to the previous record in the stack.
+So each \q{handler} field points to a handler and an each \q{prev} field points to the previous record in the chain of exception handlers.
 The last record has \TT{0xFFFFFFFF} (-1) in the \q{prev} field.
 
 \input{OS/SEH/1/tikz}
@@ -89,7 +89,7 @@ After our handler is installed, we call \TT{RaiseException()}
 This is an user exception. 
 The handler checks the code.
 If the code is \TT{0xE1223344}, it returning \TT{ExceptionContinueExecution},
-which means that handler corrected the CPU state (it is usually a correction of the EIP/ESP registers) and the \ac{OS} can resume the execution of the.
+which means that handler corrected the CPU state (it is usually a correction of the EIP/ESP registers) and the \ac{OS} can resume the execution of the thread.
 If you alter slightly the code so the handler returns \TT{ExceptionContinueSearch},
 
 then the \ac{OS} will call the other handlers, and it's unlikely that one who can handle it will be found, since

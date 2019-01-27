@@ -36,7 +36,7 @@ Nous voyons qu'\EAX contient l'adresse du second caractère de la chaîne.
 
 \clearpage
 
-Nous devons appuyons un certain nombre de fois sur F8afin de sortir de la boucle:
+Nous devons appuyons un certain nombre de fois sur F8 afin de sortir de la boucle:
 
 \begin{figure}[H]
 \centering
@@ -45,6 +45,7 @@ Nous devons appuyons un certain nombre de fois sur F8afin de sortir de la boucle
 \label{fig:strlen_olly_3}
 \end{figure}
 
+% FIXME:
 Nous voyons qu'\EAX contient l'adresse de l'octet à zéro situé juste après la chaîne.
 Entre temps, \EDX n'a pas changé, donc il pointe sur le début de la chaîne.
 
@@ -63,5 +64,5 @@ L'instruction \SUB vient juste d'être effectuée:
 La différence entre les deux pointeurs est maintenant dans le registre \EAX---7.
 Effectivement, la longueur de la chaîne \q{hello!} est 6, mais avec l'octet à zéro
 inclus---7.
-Mais \TT{strlen()} doit renvoyer le nombre de charactère non-zéro dans la chaîne.
+Mais \TT{strlen()} doit renvoyer le nombre de caractère non-zéro dans la chaîne.
 Donc la décrémentation est effectuée et ensuite la fonction sort.

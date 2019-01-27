@@ -1,0 +1,63 @@
+\subsection{Quelques ajouts à propos du complément à deux}
+
+\epigraph{Exercice 2-1. Écrire un programme pour déterminer les intervalles des variables
+\TT{char}, \TT{short}, \TT{int}, et \TT{long}, signées et non signées, en affichant
+les valeurs appropriées depuis les headers standards et par calcul direct.}{\KRBook}
+
+\subsubsection{Obtenir le nombre maximum de quelques \glslink{word}{mots}}
+
+Le maximum d'un nombre non signé est simplement un nombre où tous les bits sont mis:
+\emph{0xFF....FF} (ceci est -1 si le \glslink{word}{mot} est traité comme un entier
+signé).
+Donc, vous prenez un \glslink{word}{mot}, vous mettez tous les bits et vous obtenez
+la valeur:
+
+\begin{lstlisting}[style=customc]
+#include <stdio.h>
+
+int main()
+{
+	unsigned int val=~0; // changer à "unsigned char" pour obtenir la valeur maximale pour un octet 8-bit non-signé
+	// 0-1 fonctionnera aussi, ou juste -1
+	printf ("%u\n", val); // %u pour unsigned
+};
+\end{lstlisting}
+
+C'est 4294967295 pour un entier 32-bit.
+
+\subsubsection{Obtenir le nombre maximum de quelques \glslink{word}{mots} signés}
+
+Le nombre signé minimum est encodé en \emph{0x80....00}, i.e., le bit le plus significatif
+est mis, tandis que tous les autres sont à zéro.
+Le nombre maximum signé est encodé de la même manière, mais tous les bits sont
+inversés: \emph{0x7F....FF}.
+
+Déplaçons un seul bit jusqu'à ce qu'il disparaisse:
+
+\begin{lstlisting}[style=customc]
+#include <stdio.h>
+
+int main()
+{
+	signed int val=1; // changer à "signed char" pour trouver les valeurs pour un octet signé
+	while (val!=0)
+	{
+		printf ("%d %d\n", val, ~val);
+		val=val<<1;
+	};
+};
+\end{lstlisting}
+
+La sortie est:
+
+\begin{lstlisting}
+...
+
+536870912 -536870913
+1073741824 -1073741825
+-2147483648 2147483647
+\end{lstlisting}
+
+Les deux dernier nombres sont respectivement le minimum et le maximum d'un entier
+signé 32-bit \emph{int}.
+

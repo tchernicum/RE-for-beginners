@@ -39,8 +39,8 @@ Dans notre cas, le fichier contient deux segments: \TT{CONST} (pour les données
 \myindex{\CLanguageElements!const}
 \label{string_is_const_char}
 La chaîne \TT{hello, world} en \CCpp a le type \TT{const char[]}\InSqBrackets{\TCPPPL p176, 7.3.2}, mais
-elle n'a pas de nom en propre.
-Le compilateur doit pouvoir l'utiliser et lui défini donc un nom interne \TT{\$SG3830} à cette fin.
+elle n'a pas de nom.
+Le compilateur doit pouvoir l'utiliser et lui défini donc le nom interne \TT{\$SG3830} à cette fin.
 
 C'est pourquoi l'exemple pourrait être récrit comme suit:
 
@@ -52,7 +52,7 @@ est le standard pour les chaînes \CCpp.
 Dans le segment de code, \TT{\_TEXT}, il n'y a qu'une seule fonction: \main{}.
 La fonction \main débute par le code du prologue et se termine par le code de l'épilogue 
 (comme presque toutes les fonctions)
-\footnote{Vous pouvez en lire plus dans la section concerant les prologues et épilogues de
+\footnote{Vous pouvez en lire plus dans la section concernant les prologues et épilogues de
 fonctions ~(\myref{sec:prologepilog}).}.
 
 \myindex{x86!\Instructions!CALL}
@@ -104,14 +104,15 @@ Dans le code généré cela est implémenté par l'instruction \INS{XOR EAX, EAX
 
 \myindex{x86!\Instructions!MOV}
 
-\XOR est en fait un simple \q{OU exclusif (eXclusive OR}\footnote{\href{http://go.yurichev.com/17118}{wikipedia}} mais
+\XOR est en fait un simple \q{OU exclusif (eXclusive OR}\footnote{\href{http://go.yurichev.com/17118}{Wikipédia}} mais
 les compilateurs l'utilisent souvent à la place de \INS{MOV EAX, 0}---à nouveau parce que l'opcode est légèrement plus
 court (2 octets pour \XOR contre 5 pour \MOV).
 
 \myindex{x86!\Instructions!SUB}
-Certains compilateurs génèrent \INS{SUB EAX, EAX}, qui signifie \IT{Soustraire la valeur dans} \EAX \IT{de la valeur dans} \EAX,
+Certains compilateurs génèrent \INS{SUB EAX, EAX}, qui signifie \emph{Soustraire la valeur dans} \EAX \emph{de la valeur dans} \EAX,
  ce qui, dans tous les cas, donne zéro.
 
 \myindex{x86!\Instructions!RET}
-La dernière instruction \RET redonne le contrôle à l'appelant (\gls{caller}). c'est du code \CCpp \ac{CRT}, qui, à son tour, redonne le contrôle à l'\ac{OS}.
+La dernière instruction \RET redonne le contrôle à l'\glslink{caller}{appelant}.
+Habituellement, c'est ce code \CCpp \ac{CRT}, qui, à son tour, redonne le contrôle à l'\ac{OS}.
 

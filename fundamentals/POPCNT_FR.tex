@@ -1,0 +1,49 @@
+\mysection{Comptage de population}
+\label{POPCNT}
+
+L'instruction \INS{POPCNT} est \q{population count} (comptage de population) (\ac{AKA}
+poids de Hamming). Elle compte simplement les nombres de bits mis dans une valeur
+d'entrée.
+
+Par effet de bord, l'instruction \INS{POPCNT} (ou opération) peut-être utilisée pour
+déterminer si la valeur est de la forme $2^n$. Puisqu'un nombre de la forme $2^n$
+a un seul bit à 1, le résultat de \INS{POPCNT} (ou opération) sera toujours 1.
+
+\myindex{base64scanner}
+Par exemple, j'ai écrit une fois un scanner de chaînes en base64 pour chercher des
+choses intéressantes dans les fichiers binaires\footnote{\url{https://github.com/DennisYurichev/base64scanner}}.
+Et il y  beaucoup de déchets et de faux-positifs, donc j'ai ajouté une option pour
+filtrer les blocs de données ayant une taille de $2^n$ octets (i.e., 256 octets,
+512, 1024, etc.).
+La taille du bloc est testée simplement comme ceci:
+
+\begin{lstlisting}[style=customc]
+if (popcnt(size)==1)
+	// OK
+...
+\end{lstlisting}
+
+Cette instruction est aussi connue en tant qu'\q{instruction \ac{NSA}} à cause de
+rumeurs:
+
+% Cryptographie appliquée : protocoles, algorithmes et codes source en C / Bruce Schneier ; trad. de Laurent Viennot
+% RDRL registres à décalage à rétroaction linéaire, traduction de LFSR
+\begin{framed}
+\begin{quotation}
+Cette branche de la cryptographie croît très rapidement et est très influencée politiquement.
+La plupart des conceptions sont secrètes ; la majorité des systèmes de chiffrement
+militaire utilisés aujourd'hui est basée sur les RDRL. De fait, la plupart des ordinateurs
+CRAY (Cray 1, Cray X-MP, Cray Y-MP) possèdent une instruction curieuse du
+nom de \q{comptage de la population}.
+Elle compte les 1 dans un registre et peut être
+utilisée à la fois pour calculer efficacement la distance de Hamming entre deux mots
+binaires et pour réaliser une version vectorielle d'un RDRL. Certains la nomment
+l'instruction canonique de la NSA, elle est demandée sur presque tous les contrats
+d'ordinateur.
+\end{quotation}
+\end{framed}
+\InSqBrackets{\Schneier{}}\footnote{NDT: traduit en français par Laurent Viennot}\\
+Traduction française: \InSqBrackets{Cryptographie appliquée : protocoles, algorithmes
+et codes source en C / Bruce Schneier ; traduction de Laurent Viennot}\footnote{La
+traduction de la citation est extraite de ce livre.}
+

@@ -1,4 +1,5 @@
 root@debian-mips:~# gcc hw.c -O3 -o hw
+
 root@debian-mips:~# gdb hw
 GNU gdb (GDB) 7.0.1-debian
 ...

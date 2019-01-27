@@ -1,7 +1,7 @@
 ﻿\subsubsection{Modification d'adresse (Win64)}
 
-Lorsque notre exemple est compilé sous MSVC2013 avec l'option \TT{\textbackslash{}MD}
-(générant un exécutable plus petit à cause du lien avec \TT{MSVCR*.DLL}), la fonction \main vient en premier et
+Lorsque notre exemple est compilé sous MSVC 2013 avec l'option \TT{\textbackslash{}MD}
+(générant un exécutable plus petit du fait du lien avec \TT{MSVCR*.DLL}), la fonction \main vient en premier et
 est trouvée facilement:
 
 \begin{figure}[H]
@@ -29,7 +29,7 @@ Le fichier binaire que j'obtiens en compilant notre exemple avec GCC 5.4.0 sur u
 nombreuses autres chaînes:
 la plupart sont des noms de fonction et de bibliothèque importées.
 
-Je lance \IT{objdump} pour voir le contenu de toutes les sections du fichier compilé:
+Je lance \emph{objdump} pour voir le contenu de toutes les sections du fichier compilé:
 
 \begin{lstlisting}[basicstyle=\ttfamily, mathescape]
 $\$$ objdump -s a.out
@@ -64,8 +64,6 @@ int main()
 
 Difficile à croire, ce code affiche la chaîne mentionnée.
 
-%%On your system, executable may be slightly different, and all addresses will also be different.
-%%Also, adding/removing code to/from this source code will probably shift all addresses back and forth.
 Changez l'adresse en \TT{0x400260}, et la chaîne \q{GNU} sera affichée.
 L'adresse est valable pour cette version spécifique de GCC, outils GNU, etc.
 Sur votre système, l'exécutable peut être légèrement différent, et toutes les adresses seront différentes.

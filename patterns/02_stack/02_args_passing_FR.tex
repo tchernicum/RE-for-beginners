@@ -1,4 +1,4 @@
-\subsubsection{Passage des arguments de fonction}
+\subsubsection{Passage des arguments d'une fonction}
 
 Le moyen le plus utilisé pour passer des arguments en x86 est appelé \q{cdecl}:
 
@@ -34,7 +34,7 @@ ESP+0xC & \argument \#3, \MarkedInIDAAs{} \TT{arg\_8} \\
 Pour plus d'information sur les conventions d'appel, voir cette section~(\myref{sec:callingconventions}).
 
 \par
-A propos, la fonction \glslink{callee}{appelée} n'a aucune d'information sur le
+À propos, la fonction \glslink{callee}{appelée} n'a aucune d'information sur le
 nombre d'arguments qui ont été passés.
 Les fonctions C avec un nombre variable d'arguments (comme \printf) déterminent
 leur nombre en utilisant les spécificateurs de la chaîne de format (qui commencent
@@ -82,13 +82,13 @@ par des variables globales, comme:
 
 \lstinputlisting[caption=Code assembleur,style=customasmx86]{patterns/02_stack/global_args.asm}
 
-Mais cette méthode a un inconvénient évident: la fonction \IT{do\_something()}
+Mais cette méthode a un inconvénient évident: la fonction \emph{do\_something()}
 ne peut pas s'appeler elle-même récursivement (ou par une autre fonction),
 car il faudrait écraser ses propres arguments.
-La même histoire avec les variables locales: si vous les stocker dans des variables
+La même histoire avec les variables locales: si vous les stockez dans des variables
 globales, la fonction ne peut pas s'appeler elle-même.
-Et ce n'est pas thread-safe.
-\footnote{Correctemment implémenter, chaque thread aurait sa propre pile avec ses propres arguments/variables.}.
+Et ce n'est pas thread-safe
+\footnote{Correctement implémenté, chaque thread aurait sa propre pile avec ses propres arguments/variables.}.
 Une méthode qui stocke ces informations sur la pile rend cela plus facile---elle
 peut contenir autant d'arguments de fonctions et/ou de valeurs, que la pile a d'espace.
 
@@ -98,7 +98,7 @@ pratique sur les IBM System/360.
 \myindex{MS-DOS}
 \myindex{x86!\Instructions!INT}
 
-MS-DOS a une manière de passer tout les arguments de fonctions via des registres,
+MS-DOS a une manière de passer tous les arguments de fonctions via des registres,
 par exemple, c'est un morceau de code pour un ancien MS-DOS 16-bit qui affiche
 ``Hello, world!'':
 
@@ -136,11 +136,11 @@ error:
 \end{lstlisting}
 
 En cas d'erreur, le flag \TT{CF} est mis. Sinon, le handle du fichier nouvellement
-créer est retourné via \TT{AX}.
+créé est retourné via \TT{AX}.
 
 Cette méthode est encore utilisée par les programmeurs en langage d'assemblage.
 Dans le code source de Windows Research Kernel (qui est très similaire à Windows
-2003) nous pouvons trouver quelque chose comme ça (file \IT{base/ntos/ke/i386/cpu.asm}):
+2003) nous pouvons trouver quelque chose comme ça (file \emph{base/ntos/ke/i386/cpu.asm}):
 
 \begin{lstlisting}[style=customasmx86]
         public  Get386Stepping

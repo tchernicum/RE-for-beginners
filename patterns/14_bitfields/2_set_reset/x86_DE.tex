@@ -7,8 +7,8 @@ Wir erhalten folgenden Code: (MSVC 2010):
 \lstinputlisting[caption=MSVC 2010,style=customasmx86]{patterns/14_bitfields/2_set_reset/set_reset_msvc.asm}
 
 \myindex{x86!\Instructions!OR}
-Der \OR Befehl setzt ein Bit auf einen Wert, während die übrigen ignoriert
-werden.
+% TBT: the following sentence may need to be updated:
+Der \OR Befehl setzt ein Bit auf einen Wert, während die übrigen ignoriert werden.
 
 \myindex{x86!\Instructions!AND}
 \AND resettet ein Bit. Man kann sagen, dass \AND einfach alle Bits bis auf eines
@@ -131,5 +131,5 @@ damit direkt weiterzuarbeiten. Bemerkenswert ist, dass sowohl der
 Funktionsprolog (\INS{push ebp / mov ebp,esp}) als auch der Funktionsepilog
 (\INS{pop ebp}) hier wegfallen können. GCC ist aber möglicherweise nicht gut
 genug um eine solche Code Optimierung hier durchzuführen. Auf jeden Fall sind
-solche kurzen Funktion am besten als \IT{inline functions}
+solche kurzen Funktion am besten als \emph{inline functions}
 (\myref{inline_code}) zu kennzeichnen.

@@ -78,12 +78,12 @@ So, in normal conditions the program calls \strlen, passing it a pointer to the 
 placed in memory at address 0x008c1ff8.
 \strlen reads one byte at a time until 0x008c1ffd, where there's a zero byte, and then it stops.
 
-Now if we implement our own \strlen reading 16 byte at once, starting at any address, aligned or not,
+Now if we implement our own \strlen reading 16 bytes at once, starting at any address, aligned or not,
 \MOVDQU may attempt to load 16 bytes at once at address 0x008c1ff8 up to 0x008c2008, 
 and then an exception will be raised.
 That situation is to be avoided, of course.
 
-So then we'll work only with the addresses aligned on a 16 byte boundary, which in combination with the knowledge
+So then we'll work only with the addresses aligned on a 16 bytes boundary, which in combination with the knowledge
 that the \ac{OS}' page size is usually aligned on a 16-byte boundary gives us some warranty that our function will not
 read from unallocated memory.
 
@@ -128,8 +128,9 @@ This instruction sets first \EAX bit to 1 if the most significant bit of the fir
 In other words, if the first byte of the \XMM{1} register is \TT{0xff}, then the first bit of \EAX is to be 1, too.
 
 If the second byte in the \XMM{1} register is \TT{0xff}, then the second bit in \EAX is to be set to 1.
-In other words, the instruction is answering the question \q{which bytes in \XMM{1} are \TT{0xff}?}
-and returns 16 bits in the \EAX register. 
+In other words, the instruction is answering the question \q{which bytes in \XMM{1} has the most significant bit set, or
+greater than 0x7f},
+and returns 16 bits in the \EAX register.
 The other bits in the \EAX register are to be cleared.
 
 By the way, do not forget about this quirk of our algorithm.
@@ -150,13 +151,13 @@ XMM1: 0x0000ff00000000000000ff0000000000
 This means that the instruction found two zero bytes, and it is not surprising.
  
 \TT{PMOVMSKB} in our case will set \EAX to\\
-\IT{0b0010000000100000}.
+\emph{0b0010000000100000}.
 
 Obviously, our function must take only the first zero bit and ignore the rest.
 
 \myindex{x86!\Instructions!BSF}
 \label{instruction_BSF}
-The next instruction is \TT{BSF} (\IT{Bit Scan Forward}). 
+The next instruction is \TT{BSF} (\emph{Bit Scan Forward}). 
 
 This instruction finds the first bit set to 1 and stores its position into the first operand.
 

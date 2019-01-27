@@ -117,6 +117,7 @@ Dieser Befehl setzt das erste Bit in \EAX auf 1, falls das MSB des ersten Bytes 
 Mit anderen Worten: wenn das erste Byte im \XMM{1} Register \TT{0xff} ist, dann wird das erste Bit in \EAX ebenfalls auf
 1 gesetzt.
 
+% TBT
 Wenn das zweite Byte in \XMM{1} \TT{0xff} ist, wird das zweite Bit in \EAX auf 1 gesetzt.
 Mit anderen Worten: der Befehl beantwortet die Frage welche Bytes in \XMM{1} gleich \TT{0xff} sind und gibt 16 Bits im
 \EAX Register zurück.
@@ -137,12 +138,12 @@ XMM1: 0x0000ff00000000000000ff0000000000
 Das bedeutet, dass der Befehl zwei Nullbytes gefunden hat. Dieses Ergebnis war zu erwarten.
  
 \TT{PMOVMSKB} in our case will set \EAX to\\
-\IT{0b0010000000100000}.
+\emph{0b0010000000100000}.
 Offensichtlich muss unsere Funktion nur das erste Nullbit nehmen und den Rest ignorieren.
 
 \myindex{x86!\Instructions!BSF}
 \label{instruction_BSF}
-Der nächste Befehl ist \TT{BSF} (\IT{Bit Scan Forward}). 
+Der nächste Befehl ist \TT{BSF} (\emph{Bit Scan Forward}). 
 Dieser Befehl erkennt, dass das erste Bit auf 1 gesetzt ist und speichert dessen Position im ersten Operanden.
 
 \begin{verbatim}

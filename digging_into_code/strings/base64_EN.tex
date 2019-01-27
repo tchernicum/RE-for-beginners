@@ -7,7 +7,7 @@ In essence, this algorithm encodes 3 binary bytes into 4 printable characters:
 all 26 Latin letters (both lower and upper case), digits, plus sign (\q{+}) and slash sign (\q{/}),
 64 characters in total.
 
-One distinctive feature of base64 strings is that they often (but not always) ends with 1 or 2 \gls{padding}
+One distinctive feature of base64 strings is that they often (but not always) end with 1 or 2 \gls{padding}
 equality symbol(s) (\q{=}), for example:
 
 \begin{lstlisting}
@@ -50,7 +50,7 @@ Some people tries to use base64 to obfuscate strings:
 
 \myindex{base64scanner}
 There are utilities for scanning an arbitrary binary files for base64 strings.
-One such utility is base64scanner\footnote{\url{https://github.com/dennis714/base64scanner}}.
+One such utility is base64scanner\footnote{\url{https://github.com/DennisYurichev/base64scanner}}.
 
 \myindex{UseNet}
 \myindex{FidoNet}
@@ -66,6 +66,7 @@ is also stored in header.
 By the way: there is also close sibling to base64: base32, alphabet of which has ~10 digits and ~26 Latin characters.
 One well-known usage of it is onion addresses
 \footnote{\url{https://trac.torproject.org/projects/tor/wiki/doc/HiddenServiceNames}},
-like: \url{http://3g2upl4pq6kufc4m.onion/}.
+like: \\
+\url{http://3g2upl4pq6kufc4m.onion/}.
 \ac{URL} can't have mixed-case Latin characters, so apparently, this is why Tor developers used base32.
 
